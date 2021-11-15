@@ -1,0 +1,61 @@
+/*TABLE STYLE*/
+    div {
+        margin: 5%;
+    }
+
+    table {
+        width: 70%;
+    }
+
+    .col1 {
+        width: 20%;
+    }
+    
+    .col2 {
+        width: 60%;
+    }
+
+    .col3 {
+        width: 20%;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 20px;
+        margin-left:15%; 
+        margin-right:15%;
+        text-align: center;
+    }
+
+/*BUTTON STYLE*/
+
+    button {
+        color: white;
+        background-color: #007dc1;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: auto;
+    }
+
+    input {
+        margin-top: 10px;
+    }
+
+/*CLASS STYLES*/
+
+    .resultsBox {
+        text-align: center;
+    }
+
+    .results {
+        display: none;
+    }
+
+    .error {
+        margin-top: auto;
+        color: red;
+        font-size: 1.5rem;
+    }
+
+

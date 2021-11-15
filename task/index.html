@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div>
+        <table>
+            <col class="col1">
+	        <col class="col2">
+	        <col class="col3">
+            <thead>
+                <tr>
+                    <th>Api Name</th>
+                    <th>Api Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Country Code</td>
+                    <td>
+                        <p>The iso country code of any given point. User must insert a latitude (a number between -90 and 90) and a longitude (a number between -180 and 180)</p>
+                        <input type="tel" name="firstLat" id="firstLat" placeholder="Latitude">
+                        <input type="tel" name="firstLng" id="firstLng" placeholder="Longitude">
+                    </td>
+                    <td><button id="firstBtn">Submit</button></td>
+                </tr>
+                <tr>
+                    <td>Ocean</td>
+                    <td>
+                        <p>The name of the ocean or sea for the given latitude/longitude.</p>
+                        <input type="tel" name="secondLat" id="secondLat" placeholder="Latitude">
+                        <input type="tel" name="secondLng" id="secondLng" placeholder="Longitude">
+                        <input type="tel" name="secondRadius" id="secondRadius" placeholder="Radius">
+                    </td>
+                    <td><button id="secondBtn">Submit</button></td>
+                </tr>
+                <tr>
+                    <td>Timezone</td>
+                    <td>
+                        <p>The timezone at the lat/lng with gmt offset (1. January) and dst offset (1. July).</p>
+                        <p>(Radius adds buffer in km for closest timezone in coastal areas)</p>
+                        <input type="tel" name="thirdLat" id="thirdLat" placeholder="Latitude">
+                        <input type="tel" name="thirdLng" id="thirdLng" placeholder="Longitude">
+                        <input type="tel" name="thirdRadius" id="thirdRadius" placeholder="Radius">
+                        <input type="date" name="thirdDate" id="thirdDate" placeholder="Date">
+                    </td>
+                    <td><button id="thirdBtn">Submit</button></td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="resultsBox" >
+                        <h3>Results</h3>
+                        <div class="results error" id="error"></div>
+                        <div class="results" id="resultsOne">
+                            <p>Languages: <span id="firstLang"></span></p>
+                            <p>Distance: <span id="firstDist"></span></p>
+                            <p>Country Code: <span id="firstCountryCode"></span></p>
+                            <p>Country Name: <span id="firstCountryName"></span></p>
+                        </div>
+                        <div class="results" id="resultsTwo">
+                            <p>Distance: <span id="secondDist"></span>km</p>
+                            <p>GeonameId: <span id="secondGeonameId"></span></p>
+                            <p>Name: <span id="secondName"></span></p>
+                        </div>
+                        <div class="results" id="resultsThree">
+                            <p>Country Name: <span id="thirdCountryName"></span></p>
+                            <p>Country Code: <span id="thirdCountryCode"></span></p>
+                            <p>Timezone Id: <span id="thirdTimezoneId"></span></p>
+                            <p>Sunrise: <span id="thirdSunrise"></span></p>
+                            <p>Sunset: <span id="thirdSunset"></span></p>
+                            <p>Current time at timezone: <span id="thirdTime"></span></p>
+                        </div>  
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="application/javascript" src="js/jquery-2.2.3.min.js"></script>
+	<script type="application/javascript" src="js/app.js"></script>
+
+</body>
+</html>
