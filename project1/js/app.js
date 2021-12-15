@@ -66,34 +66,10 @@ L.control.rainviewer({
     opacity: 0.8
 }).addTo(mymap);
 
-// Location functions
-let popup = L.popup();
-
-// function onMapClick(e) {
-//     popup
-//         .setLatLng(e.latlng)
-//         .setContent("You clicked the map at " + e.latlng.toString())
-//         .openOn(mymap);
-// }
-// mymap.on('click', onMapClick);
-
-// function getLocation() {
-//   if (navigator.geolocation) {
-//     console.log(navigator.geolocation.getCurrentPosition(showPosition));
-//   } else {
-//     alert("Geolocation is not supported by this browser.");
-//   }
-// };
-
-// function showPosition(position) {
-//   console.log("Latitude: " + position.coords.latitude + 
-//   "<br>Longitude: " + position.coords.longitude);
-// };
-
 // Ajax Functions
 $(document).ready(function() {
     $.ajax({
-      url: "../php/getCountryBorders.php",
+      url: "php/getCountryBorders.php",
       type: 'POST',
       dataType: "json",
     
@@ -113,7 +89,7 @@ $('#btnCountry').on('click', function(event) {
     let iso = $('#selCountry').val();
     let name = $('#selCountry option:selected').text();
     $.ajax({
-        url: "../php/getCountryBorders.php",
+        url: "php/getCountryBorders.php",
         type: 'POST',
         dataType: 'json',
         success: function(result) {
@@ -142,7 +118,7 @@ $('#btnCountry').on('click', function(event) {
             let west = countryBorder.getWest();
             // nested wikipedia bounding box api
             $.ajax({
-                url: '../php/getWikipediaLinks.php',
+                url: 'php/getWikipediaLinks.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -160,7 +136,7 @@ $('#btnCountry').on('click', function(event) {
                         };
 
                         let icon = L.icon({
-                            iconUrl: '../data/images/wikipedia-icon.png',                        
+                            iconUrl: 'data/images/wikipedia-icon.png',                        
                             iconSize:     [40, 40], // size of the icon
                             iconAnchor:   [20, 0], // point of the icon which will correspond to marker's location
                             popupAnchor:  [0, 10] // point from which the popup should open relative to the iconAnchor
@@ -185,7 +161,7 @@ $('#btnCountry').on('click', function(event) {
             });
             // nested restcountries api
             $.ajax({
-                url: '../php/getRestCountries.php',
+                url: 'php/getRestCountries.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -220,7 +196,7 @@ $('#btnCountry').on('click', function(event) {
                     };
                     // nested opencage api
                     $.ajax({
-                        url: '../php/getOpenCageData.php',
+                        url: 'php/getOpenCageData.php',
                         type: 'POST',
                         dataType: 'json',
                         data: {
@@ -239,7 +215,7 @@ $('#btnCountry').on('click', function(event) {
                             $('#speed').html(result['data']['results']['0']['annotations']['roadinfo']['speed_in']);
                             // nested openexchange api
                             $.ajax({
-                                url: '../php/getOpenExchangeRate.php',
+                                url: 'php/getOpenExchangeRate.php',
                                 type: 'POST',
                                 dataType: 'json',
                                 data: {
@@ -268,7 +244,7 @@ $('#btnCountry').on('click', function(event) {
                     }); // opencage api end
                     // nested timezone api
                     $.ajax({
-                        url: '../php/getTimezone.php',
+                        url: 'php/getTimezone.php',
                         type: 'POST',
                         dataType: 'json',
                         data: {
@@ -290,7 +266,7 @@ $('#btnCountry').on('click', function(event) {
                     }); // timezone api end     
                     // nested weather api
                     $.ajax({
-                        url: '../php/getOpenWeather.php',
+                        url: 'php/getOpenWeather.php',
                         type: 'POST',
                         dataType: 'json',
                         data: {
