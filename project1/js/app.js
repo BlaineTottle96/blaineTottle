@@ -147,7 +147,7 @@ $('#btnCountry').on('click', function(event) {
                             let wikiLng = result.data.geonames[i].lng;
                             let url = result.data.geonames[i].wikipediaUrl;
                             let title = result.data.geonames[i].title;
-                            wikiMarker = L.marker([wikiLat, wikiLng], {icon: icon}).bindPopup(`<a href="${url}" target="_blank">${title}</a>`);
+                            wikiMarker = L.marker([wikiLat, wikiLng], {icon: icon}).bindPopup(`<a href="https://${url}" target="_blank">${title}</a>`);
                             markers.push(wikiMarker);
                         }
 
