@@ -18,7 +18,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-        <div class="container-fluid">
+        <div class="container-fluid show">
             <a class="navbar-brand" href="#">Gazetteer</a>
             <div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,9 +43,9 @@
     </nav>
 
     <div class="main">
-        <div class="sidebar collapse collapse-horizontal shadow" id="sidebar">
-            <div class="sidebar-wrapper">
-                <div class="sidebar-heading">
+        <div class="sidebar collapse collapse-horizontal" id="sidebar">
+            <div class="sidebar-wrapper right-shadow">
+                <div class="sidebar-heading right-shadow">
                     <h4 id="countryName">Country Name</h4>
                     <button type="button" class="btn btn-light" data-bs-toggle="collapse" href="#sidebar"><i class="bi bi-caret-left-fill"></i></i></button>
                 </div>
@@ -54,11 +54,10 @@
                 <div class="coa-container" id="cOArms"></div>
                 <div class="sidebar-body">
                     <div class="list-group list-group-flush">
-                        <button type="button" class="list-group-item list-group-item-action sidebar-btn" data-bs-toggle="modal" data-bs-target="#generalModal"><i class="bi bi-info-square"></i><span>General</span><i class="bi bi-caret-right-fill"></i></button>
-                        <button type="button" class="list-group-item list-group-item-action sidebar-btn" data-bs-toggle="modal" data-bs-target="#currencyModal"><i class="bi bi-bank"></i><span>Currency</span><i class="bi bi-caret-right-fill"></i></button>
-                        <button type="button" class="list-group-item list-group-item-action sidebar-btn" data-bs-toggle="modal" data-bs-target="#travelModal"><i class="bi bi-bicycle"></i><span>Travel</span><i class="bi bi-caret-right-fill"></i></button>
-                        <button type="button" class="list-group-item list-group-item-action sidebar-btn" data-bs-toggle="modal" data-bs-target="#weatherModal"><i class="bi bi-brightness-alt-high"></i><span>Weather</span><i class="bi bi-caret-right-fill"></i></button>
-                        <span></span>
+                        <button type="button" class="list-group-item list-group-item-action sidebar-btn right-shadow" data-bs-toggle="modal" data-bs-target="#generalModal"><i class="bi bi-info-square"></i><span>General</span><i class="bi bi-caret-right-fill"></i></button>
+                        <button type="button" class="list-group-item list-group-item-action sidebar-btn right-shadow" data-bs-toggle="modal" data-bs-target="#currencyModal"><i class="bi bi-bank"></i><span>Currency</span><i class="bi bi-caret-right-fill"></i></button>
+                        <button type="button" class="list-group-item list-group-item-action sidebar-btn right-shadow" data-bs-toggle="modal" data-bs-target="#travelModal"><i class="bi bi-bicycle"></i><span>Travel</span><i class="bi bi-caret-right-fill"></i></button>
+                        <button type="button" class="list-group-item list-group-item-action sidebar-btn right-shadow" data-bs-toggle="modal" data-bs-target="#weatherModal"><i class="bi bi-brightness-alt-high"></i><span>Weather</span><i class="bi bi-caret-right-fill"></i></button>
                     </div>
                 </div>
             </div>
