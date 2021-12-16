@@ -69,36 +69,38 @@ L.control.rainviewer({
 // Ajax Functions
 $(document).ready(function() {
     $.ajax({
-      url: "php/getCountryBorders.php",
+      url: "php/getCountries.php",
       type: 'POST',
       dataType: "json",
     
       success: function(result) {
-        for (let i = 0; i < result.data.countryInfo.features.length; i++) {
+        for (let i = 0; i < result.data.length; i++) {
             $('#selCountry').append($('<option>', {
-                value: result.data.countryInfo.features[i].properties.iso_n3,
-                text: result.data.countryInfo.features[i].properties.name,
+                value: result.data[i].iso_n3,
+                text: result.data[i].name,
             }));
         }
       }
     });
 });
 
-$('#btnCountry').on('click', function(event) {
+$('#selCountry').change(function(event) {
     event.preventDefault();
     let iso = $('#selCountry').val();
     let name = $('#selCountry option:selected').text();
     $.ajax({
-        url: "php/getCountryBorders.php",
+        url: "php/getCountryBorder.php",
         type: 'POST',
         dataType: 'json',
+        data: {
+            iso: iso
+        },
         success: function(result) {
             let latLngs; 
-            const filterData = result.data.countryInfo.features.filter((a) => (a.properties.iso_n3 === iso));
-            let coords = filterData[0].geometry.coordinates;
+            let coords = result.data.geometry.coordinates;
             $('#countryName').html(name);
             // coordinates to latlng
-            if(filterData[0].geometry.type === 'Polygon') {
+            if(result.data.geometry.type === 'Polygon') {
               latLngs = L.GeoJSON.coordsToLatLngs(coords, 1, false);
             } else {
               latLngs = L.GeoJSON.coordsToLatLngs(coords, 2, false);
@@ -109,7 +111,7 @@ $('#btnCountry').on('click', function(event) {
             };
             polygon = L.polygon(latLngs).addTo(mymap);
             // fit bounds to map
-            countryBorder = L.geoJSON(filterData[0]).getBounds();
+            countryBorder = L.geoJSON(result.data).getBounds();
             mymap.fitBounds(countryBorder);
             // bounding box coords
             let north = countryBorder.getNorth();
@@ -147,7 +149,7 @@ $('#btnCountry').on('click', function(event) {
                             let wikiLng = result.data.geonames[i].lng;
                             let url = result.data.geonames[i].wikipediaUrl;
                             let title = result.data.geonames[i].title;
-                            wikiMarker = L.marker([wikiLat, wikiLng], {icon: icon}).bindPopup(`<a href="https://${url}" target="_blank">${title}</a>`);
+                            wikiMarker = L.marker([wikiLat, wikiLng], {icon: icon}).bindPopup(`<a href="https://${url}" target="_blank">${title}</a>`).openPopup();
                             markers.push(wikiMarker);
                         }
 
@@ -316,8 +318,12 @@ $('#btnCountry').on('click', function(event) {
           console.log(jqXHR.responseText);
         }
     }) // getborder ajax end
+    $('#sidebar').show();   
 }); // btncountry onclick end
 
+$('#sidebarToggleBtn, #infoToggle').click(function(){
+    $('#sidebar').toggle();
+});
 
 
 

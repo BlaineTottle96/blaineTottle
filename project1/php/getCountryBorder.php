@@ -11,8 +11,16 @@
     $output['status']['description'] = "success";
     $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
 
-    $output['data']['countryInfo'] = $countryInfo;
+    $output['data'] = null;
     
+    foreach($countryInfo['features'] as $data) {
+        if($data['properties']['iso_n3'] == $_REQUEST['iso']) {
+          $output['data'] = $data;
+          break; 
+        };
+    };
+    
+
     header('Content-Type: application/json; charset=UTF-8');
 
     echo json_encode($output);

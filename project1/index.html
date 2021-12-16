@@ -31,12 +31,11 @@
                         <a class="nav-link" aria-current="page" href="#aboutModal" data-bs-toggle="modal"><i class="bi bi-question-circle-fill"></i></i>About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#sidebar"><i class="bi bi-list-ul"></i>Information</a>
+                        <a class="nav-link" href="#sidebar" id="infoToggle"><i class="bi bi-list-ul"></i>Information</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <select class="form-control me-2" aria-placeholder="Select Country" name="sel-country" id="selCountry"></select>
-                    <button class="btn btn-outline-success" type="submit" id="btnCountry">Submit</button>
+                    <select class="form-control" aria-placeholder="Select Country" name="sel-country" id="selCountry"></select>
                 </form>
             </div>
         </div>
@@ -47,7 +46,7 @@
             <div class="sidebar-wrapper right-shadow">
                 <div class="sidebar-heading right-shadow">
                     <h4 id="countryName">Country Name</h4>
-                    <button type="button" class="btn btn-light" data-bs-toggle="collapse" href="#sidebar"><i class="bi bi-caret-left-fill"></i></i></button>
+                    <button type="button" class="btn btn-light" href="#sidebar" id="sidebarToggleBtn"><i class="bi bi-caret-left-fill"></i></i></button>
                 </div>
                 <div class="flag-container" id="flag"></div>
                 <h4 class="c-o-arms">Coat of Arms</h4>
@@ -100,7 +99,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>City: <span id="city"></span></p>
+                    <p>Capital: <span id="city"></span></p>
                     <p>Country Code: <span id="cCode"></span></p>
                     <p>Population: <span id="pop"></span></p>
                     <p>Continent: <span id="continent"></span></p>
