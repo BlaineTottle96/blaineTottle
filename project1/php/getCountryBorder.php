@@ -14,7 +14,7 @@
     $output['data'] = null;
     
     foreach($countryInfo['features'] as $data) {
-        if($data['properties']['iso_n3'] == $_REQUEST['iso']) {
+        if($data['properties']['iso_a2'] == $_REQUEST['iso']) {
           $output['data'] = $data;
           break; 
         };

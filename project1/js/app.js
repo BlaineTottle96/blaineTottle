@@ -5,6 +5,8 @@ let wikiMarker = {};
 let polygon = {};
 let markers = [];
 let markersLayer;
+let markerCluster = L.markerClusterGroup();
+let isoa2;
 // Map Layers
 let Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
@@ -40,7 +42,7 @@ let zoomControl = L.control.zoom({
 zoomControl.addTo(mymap);
 
 L.easyButton( 'bi bi-cursor-fill', function(){
-    mymap.locate({setView: true, maxZoom: 12});
+    navigator.geolocation.getCurrentPosition(getUserLocation);
 }, {position: 'bottomright'}).addTo(mymap);
 
 let baseMaps = {
@@ -69,24 +71,53 @@ L.control.rainviewer({
 // Ajax Functions
 $(document).ready(function() {
     $.ajax({
-      url: "php/getCountries.php",
-      type: 'POST',
-      dataType: "json",
-    
-      success: function(result) {
-        for (let i = 0; i < result.data.length; i++) {
-            $('#selCountry').append($('<option>', {
-                value: result.data[i].iso_n3,
-                text: result.data[i].name,
-            }));
+        url: "php/getCountries.php",
+        type: 'POST',
+        dataType: "json",
+        
+        success: function(result) {
+            console.log(result);
+            for (let i = 0; i < result.data.length; i++) {
+                $('#selCountry').append($('<option>', {
+                    value: result.data[i].iso_a2,
+                    text: result.data[i].name,
+                }));
+            }
         }
-      }
     });
+    navigator.geolocation.getCurrentPosition(getUserLocation);
 });
+
+function getUserLocation(position) {
+    let userPositionlat = position.coords.latitude;
+    let userPositionlng = position.coords.longitude;
+    
+    $.ajax({
+        url: 'php/getCountryCode.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: userPositionlat,
+            lng: userPositionlng
+        },
+
+        success: function(result) {
+            // $('#selCountry').val(result.data.countryCode).change();
+            console.log(result);
+            isoa2 = result.data.countryCode;
+            $('#selCountry option[value=' +isoa2+']').prop("selected", true).change();
+        },
+
+        error: function(jqXHR) {
+            console.log(jqXHR);
+        }
+    })
+};
 
 $('#selCountry').change(function(event) {
     event.preventDefault();
-    let iso = $('#selCountry').val();
+    let iso = $('#selCountry option:selected').val();
+    console.log(iso);
     let name = $('#selCountry option:selected').text();
     $.ajax({
         url: "php/getCountryBorder.php",
@@ -96,6 +127,7 @@ $('#selCountry').change(function(event) {
             iso: iso
         },
         success: function(result) {
+            console.log(result);
             let latLngs; 
             let coords = result.data.geometry.coordinates;
             $('#countryName').html(name);
@@ -131,10 +163,11 @@ $('#selCountry').change(function(event) {
                 },
                 success: function(result) {
                     if (result.status.name == "ok") {
-                        
+
                         if(markersLayer != undefined && markers != undefined) {
                             markers = [];
-                            mymap.removeLayer(markersLayer);
+                            markerCluster.removeLayer(markersLayer);
+                            mymap.removeLayer(markerCluster);
                         };
 
                         let icon = L.icon({
@@ -143,8 +176,8 @@ $('#selCountry').change(function(event) {
                             iconAnchor:   [20, 0], // point of the icon which will correspond to marker's location
                             popupAnchor:  [0, 10] // point from which the popup should open relative to the iconAnchor
                         });
-
-                        for(let i = 0; i < result.data.geonames.length; i++) {
+                        let wikiArray = result.data.geonames;
+                        for(let i = 0; i < wikiArray.length; i++) {
                             let wikiLat = result.data.geonames[i].lat;
                             let wikiLng = result.data.geonames[i].lng;
                             let url = result.data.geonames[i].wikipediaUrl;
@@ -154,7 +187,8 @@ $('#selCountry').change(function(event) {
                         }
 
                         markersLayer = L.layerGroup(markers);
-                        markersLayer.addTo(mymap);    
+                        markerCluster.addLayer(markersLayer);
+                        mymap.addLayer(markerCluster);    
                     }; 
                 },
                 error: function(jqXHR) {
