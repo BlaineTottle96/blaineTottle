@@ -1,13 +1,11 @@
 <?php
 
-	// remove for production
-
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
 
-	$url='https://openexchangerates.org/api/latest.json?app_id=a32664551bb64b77af34dd9207c5d555&symbols=' . $_REQUEST['code'] . '&prettyprint=false';
+	$url='https://openexchangerates.org/api/latest.json?app_id=a32664551bb64b77af34dd9207c5d555&symbols=' . $_REQUEST['code'] . '&prettyprint=true';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

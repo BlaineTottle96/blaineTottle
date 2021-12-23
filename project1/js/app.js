@@ -7,6 +7,36 @@ let markers = [];
 let markersLayer;
 let markerCluster = L.markerClusterGroup();
 let isoa2;
+let wikiIcon = L.ExtraMarkers.icon({
+    icon: 'fa-book-open',
+    markerColor: 'purple',
+    shape: 'circle',
+    prefix: 'fa'
+});
+
+let capitalIcon = L.ExtraMarkers.icon({
+    icon: 'fa-city',
+    markerColor: 'blue',
+    shape: 'square',
+    prefix: 'fa'
+});
+
+function getDate(dateObj) {
+    let date = new Date(dateObj);
+    const [month, day, year, hour, minutes] = [date.getMonth(), date.getDate(), date.getFullYear(), date.getHours().toString().padStart(2, "0"), date.getMinutes().toString().padStart(2, "0")];
+    return `${day}/${month}/${year} ${hour}:${minutes}`;
+};
+
+// Preloader
+
+$(window).on('load', function () {
+    if ($('#preloader').length) {
+        $('#preloader').delay(1000).fadeOut('slow',function () {
+            $(this).remove();
+        });
+    }
+});
+
 // Map Layers
 let Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
@@ -41,9 +71,59 @@ let zoomControl = L.control.zoom({
   });
 zoomControl.addTo(mymap);
 
-L.easyButton( 'bi bi-cursor-fill', function(){
+L.easyButton( 'fa-location-arrow', function(){
     navigator.geolocation.getCurrentPosition(getUserLocation);
 }, {position: 'bottomright'}).addTo(mymap);
+
+L.easyButton({
+    states: [
+        {
+            icon:'fa-info-circle',
+            stateName: 'general-btn',
+            onClick: function(){ $('#generalModal').modal('show');}
+        }
+    ]
+}).addTo(mymap);
+
+L.easyButton({
+    states: [
+        {
+            icon:'fa-hand-holding-usd',
+            stateName: 'currency-btn',
+            onClick: function(){  $('#currencyModal').modal('show');}
+        }
+    ]
+}).addTo(mymap);
+
+L.easyButton({
+    states: [
+        {
+            icon:'fa-road',
+            stateName: 'travel-btn',
+            onClick: function(){  $('#travelModal').modal('show');}
+        }
+    ]
+}).addTo(mymap);
+
+L.easyButton({
+    states: [
+        {
+            icon:'fa-cloud-sun',
+            stateName: 'weather-btn',
+            onClick: function(){  $('#weatherModal').modal('show');}
+        }
+    ]
+}).addTo(mymap);
+
+L.easyButton({
+    states: [
+        {
+            icon:'fa-virus',
+            stateName: 'covid-btn',
+            onClick: function(){  $('#covidModal').modal('show');}
+        }
+    ]
+}).addTo(mymap);
 
 let baseMaps = {
     "Grayscale": Esri_WorldGrayCanvas,
@@ -57,17 +137,6 @@ let overlays = {
 
 L.control.layers(baseMaps, overlays).addTo(mymap);
 
-L.control.rainviewer({ 
-    position: 'topright',
-    nextButtonText: '>',
-    playStopButtonText: 'Play/Stop',
-    prevButtonText: '<',
-    positionSliderLabelText: "Time:",
-    opacitySliderLabelText: "Opacity:",
-    animationInterval: 400,
-    opacity: 0.8
-}).addTo(mymap);
-
 // Ajax Functions
 $(document).ready(function() {
     $.ajax({
@@ -76,7 +145,6 @@ $(document).ready(function() {
         dataType: "json",
         
         success: function(result) {
-            console.log(result);
             for (let i = 0; i < result.data.length; i++) {
                 $('#selCountry').append($('<option>', {
                     value: result.data[i].iso_a2,
@@ -102,8 +170,6 @@ function getUserLocation(position) {
         },
 
         success: function(result) {
-            // $('#selCountry').val(result.data.countryCode).change();
-            console.log(result);
             isoa2 = result.data.countryCode;
             $('#selCountry option[value=' +isoa2+']').prop("selected", true).change();
         },
@@ -117,7 +183,6 @@ function getUserLocation(position) {
 $('#selCountry').change(function(event) {
     event.preventDefault();
     let iso = $('#selCountry option:selected').val();
-    console.log(iso);
     let name = $('#selCountry option:selected').text();
     $.ajax({
         url: "php/getCountryBorder.php",
@@ -127,10 +192,11 @@ $('#selCountry').change(function(event) {
             iso: iso
         },
         success: function(result) {
-            console.log(result);
+            // iso3 for covid api
+            let iso3 = result.data.properties.iso_a3;
+            iso3 = iso3.toLowerCase();
             let latLngs; 
             let coords = result.data.geometry.coordinates;
-            $('#countryName').html(name);
             // coordinates to latlng
             if(result.data.geometry.type === 'Polygon') {
               latLngs = L.GeoJSON.coordsToLatLngs(coords, 1, false);
@@ -141,7 +207,7 @@ $('#selCountry').change(function(event) {
             if (polygon != undefined) {
               mymap.removeLayer(polygon);
             };
-            polygon = L.polygon(latLngs).addTo(mymap);
+            polygon = L.polygon(latLngs, {color: '#303030'}).addTo(mymap);
             // fit bounds to map
             countryBorder = L.geoJSON(result.data).getBounds();
             mymap.fitBounds(countryBorder);
@@ -170,19 +236,13 @@ $('#selCountry').change(function(event) {
                             mymap.removeLayer(markerCluster);
                         };
 
-                        let icon = L.icon({
-                            iconUrl: 'data/images/wikipedia-icon.png',                        
-                            iconSize:     [40, 40], // size of the icon
-                            iconAnchor:   [20, 0], // point of the icon which will correspond to marker's location
-                            popupAnchor:  [0, 10] // point from which the popup should open relative to the iconAnchor
-                        });
                         let wikiArray = result.data.geonames;
                         for(let i = 0; i < wikiArray.length; i++) {
                             let wikiLat = result.data.geonames[i].lat;
                             let wikiLng = result.data.geonames[i].lng;
                             let url = result.data.geonames[i].wikipediaUrl;
                             let title = result.data.geonames[i].title;
-                            wikiMarker = L.marker([wikiLat, wikiLng], {icon: icon}).bindPopup(`<a href="https://${url}" target="_blank">${title}</a>`).openPopup();
+                            wikiMarker = L.marker([wikiLat, wikiLng], {icon: wikiIcon}).bindPopup(`<a href="https://${url}" target="_blank">${title}</a>`).openPopup();
                             markers.push(wikiMarker);
                         }
 
@@ -206,12 +266,13 @@ $('#selCountry').change(function(event) {
                 success: function(result) {
                     let capitalLat = result.data['0'].capitalInfo.latlng['0'];
                     let capitalLng = result.data['0'].capitalInfo.latlng['1'];
-                    let capital = result['data']['0']['capital']['0'];                  
+                    let capital = result['data']['0']['capital']['0']; 
+                    let population = result['data']['0']['population'].toLocaleString();
                     if (result.status.name == "ok") {
                         // info to general modal
                         $('#city').html(result['data']['0']['capital']['0']);
                         $('#cCode').html(result['data']['0']['cca3']);
-                        $('#pop').html(result['data']['0']['population']);
+                        $('#pop').html(population);
                         $('#continent').html(result['data']['0']['continents']['0']);
                         // timezone to travel modal
                         $('#timezone').html(result['data']['0']['timezones']['0']);
@@ -228,8 +289,9 @@ $('#selCountry').change(function(event) {
                         if (marker != undefined) {
                             mymap.removeLayer(marker);
                         };  
-                        marker = L.marker({lat: capitalLat, lng: capitalLng}).addTo(mymap).bindPopup(capital + ', ' + name).openPopup();
+                        marker = L.marker({lat: capitalLat, lng: capitalLng}, {icon: capitalIcon}).addTo(mymap).bindPopup('Capital: ' + capital + '<br>' + name, {className: 'capital-popup'}).openPopup();
                     };
+
                     // nested opencage api
                     $.ajax({
                         url: 'php/getOpenCageData.php',
@@ -240,7 +302,7 @@ $('#selCountry').change(function(event) {
                           lng: capitalLng
                         },
                         success: function(result) {
-                            let currencyCode = result.data.results['0'].annotations.currency.iso_code;            
+                            let currencyCode = result.data.results['0'].annotations.currency.iso_code;         
                             // Currency info
                             $('#currencyName').html(result['data']['results']['0']['annotations']['currency']['name']);
                             $('#symbol').html(result['data']['results']['0']['annotations']['currency']['symbol']);
@@ -257,13 +319,13 @@ $('#selCountry').change(function(event) {
                                 data: {
                                     code: currencyCode 
                                 },
-                                success: function(result) {             
-                                    if (result.status.name == "ok") {
+                                success: function(result) {            
+                                    if (result.status.name == "ok") {                                       
                                           if(result.data.rates.length != 0) {
                                               let rateObject = result.data.rates;
                                               let rateKey = Object.keys(rateObject)[0];
                                               let rateValue = rateObject[rateKey]
-                                              $('#xRate').html("1 US Dollar equals " + rateValue + ' ' + rateKey);
+                                              $('#xRate').html("1 USD = " + rateValue + ' ' + rateKey);
                                           } else {
                                               $('#xRate').html("No Exchange Rate for this Country");
                                           }
@@ -279,27 +341,27 @@ $('#selCountry').change(function(event) {
                         }
                     }); // opencage api end
                     // nested timezone api
-                    $.ajax({
-                        url: 'php/getTimezone.php',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            lat: capitalLat,
-                            lng: capitalLng
-                          
-                        },
-                        success: function(result) {
-                            if (result.status.name == "ok") {
-                                $('#timezoneId').html(result['data']['timezoneId']);
-                                $('#localTime').html(result['data']['time']);
-                                $('#sunrise').html(result['data']['sunrise']);
-                                $('#sunset').html(result['data']['sunset']);
-                            } 
-                        },
-                        error: function(jqXHR) {
-                            console.log(jqXHR.responseText);
-                        }
-                    }); // timezone api end     
+                        $.ajax({
+                            url: 'php/getTimezone.php',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                lat: capitalLat,
+                                lng: capitalLng
+                            
+                            },
+                            success: function(result) {
+                                if (result.status.name == "ok") {                           
+                                    $('#timezoneId').html(result['data']['timezoneId']);
+                                    $('#localTime').html(getDate(result['data']['time']));
+                                    $('#sunrise').html(getDate(result['data']['sunrise']));
+                                    $('#sunset').html(getDate(result['data']['sunset']));
+                                } 
+                            },
+                            error: function(jqXHR) {
+                                console.log(jqXHR.responseText);
+                            }
+                        }); // timezone api end     
                     // nested weather api
                     $.ajax({
                         url: 'php/getOpenWeather.php',
@@ -339,7 +401,7 @@ $('#selCountry').change(function(event) {
                             $('#nextWind').html(result.data.daily['1'].wind_speed);
                         },
                         error: function(jqXHR) {
-                            console.log(jqXHR.responseText);
+                            console.log(jqXHR);
                         }
                     }); // weather api end
                 },
@@ -347,6 +409,27 @@ $('#selCountry').change(function(event) {
                     console.log(jqXHR.responseText);
                 }
             }); // restcountries ajax end
+            // Covid api
+            $.ajax({
+                url: 'php/getCovid.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    iso: iso3
+                },
+                success: function(result) {
+                    $('#newCase').html(result['0']['NewCases']);
+                    $('#newDeath').html(result['0']['NewDeaths']);
+                    $('#serious').html(result['0']['Serious_Critical'].toLocaleString());
+                    $('#newRecovered').html(result['0']['NewRecovered']);
+                    $('#totalCase').html(result['0']['TotalCases'].toLocaleString());
+                    $('#totalDeath').html(result['0']['TotalDeaths'].toLocaleString());
+                    $('#totalRecovered').html(result['0']['TotalRecovered'].toLocaleString());
+                },
+                error: function(jqXHR) {
+                    console.log(jqXHR.responseText);
+                }
+            }); // Covid api end
         },
         error: function(jqXHR) {
           console.log(jqXHR.responseText);

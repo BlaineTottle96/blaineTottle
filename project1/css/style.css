@@ -1,4 +1,8 @@
 /* General */
+@font-face {
+    font-family: Courgette;
+    src: url("../assets/fonts/Courgette-Regular.ttf");
+}
 
 html, body, .main {
     height: 100%;
@@ -8,14 +12,6 @@ html, body, .main {
 
 body {
     padding-top: 50px;
-}
-
-p {
-    font-weight: bold;
-}
-
-p > span {
-    color: #198754;
 }
 
 .navbar {
@@ -33,6 +29,7 @@ p > span {
 }
 
 .navbar .navbar-brand {
+    font-family: Courgette, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 25px;
     color: #FFFFFF;
@@ -49,57 +46,119 @@ p > span {
     height: 100%;
 }
 
-/* Sidebar styles */
+/* Preloader */
 
-.sidebar {
-    display: block;
-    width: 250px;
-    height: 100%;
-    max-width: 100%;
-    float: left;
-    
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #fff;
 }
 
-.sidebar-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    border: 6px solid #f2f2f2;
+    border-top: 6px solid #56829e ;
+    border-radius: 50%;width: 60px;
+    height: 60px; 
+    -webkit-animation: animate-preloader 1s linear infinite;
+    animation: animate-preloader 1s linear infinite;
 }
 
-.sidebar-heading {
-    color: #333;
-    background-color: #f5f5f5;
-    border-color: #ddd;
-    padding: 10px 0px 10px 15px;
-    width: 250px;
-    display: flex;
-    justify-content: space-evenly;
+@-webkit-keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
-.sidebar-heading .btn {
-    padding: 0rem;
+@keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
-.sidebar-body {
-    width: 250px;
-}
+/* modal styles */
 
-.sidebar-btn {
+.img-div {
     display: flex;
     justify-content: space-between;
-    font-weight: bold;
-    color: black;
 }
 
-.right-shadow {
-    box-shadow: inset -7px 0 9px -7px rgb(0 0 0 / 70%);
+.general {
+    background-color: #0d6efd;
+    color: white;
 }
 
+.blue {
+    color: #0d6efd;
+}
+
+.currency {
+    background-color: rgb(107, 192, 22);
+    color: white;
+}
+
+.green {
+    color: rgb(107, 192, 22);
+}
+
+.travel {
+    background-color: red;
+    color: white;
+}
+
+.red {
+    color: red;
+}
+
+.covid {
+    background-color: violet;
+    color: white;
+}
+
+.violet {
+    color: violet;
+}
+
+/* btn styles */
+
+.state-general-btn {
+    color: #0d6efd;
+}
+
+.state-currency-btn {
+    color: rgb(107, 192, 22);
+}
+
+.state-travel-btn {
+    color: red;
+}
+
+.state-weather-btn {
+    color: yellow;
+}
+
+.state-covid-btn {
+    color: violet;
+}
 /* image styles */
-.c-o-arms {
-    display: flex;
-    justify-content: space-around;
-}
 
 .flag-container {
     max-width: 220px;
@@ -110,7 +169,7 @@ p > span {
 .coa-container {
     max-width: 220px;
     height: auto;
-    margin: 0.4rem auto; 
+    margin: auto; 
 }
 
 img {
@@ -122,6 +181,12 @@ img {
     margin: auto;
 }
 
+/* popup */
+
+.capital-popup {
+    font-family: Courgette, Helvetica, sans-serif;
+}
+
 /* media queries */
 
 @media screen and (max-height: 675px) {
@@ -130,5 +195,11 @@ img {
         height: 100%;
         position: relative;
         overflow-y: scroll;
+    }
+
+    .img-div {
+        display: block;
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
     }
 }
