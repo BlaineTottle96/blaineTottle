@@ -1,0 +1,130 @@
+/* Main styles */
+body, html {
+    height: 100%;
+    width: 100%;
+	background-image: linear-gradient(to bottom, #434656, #3a3642, #2e282f, #211b1e, #110d0e);
+}
+
+h1 {
+    color: white;
+}
+
+/* nav styles */
+.nav-link:focus, .nav-link:hover {
+	color: white;
+}
+
+.nav-link {
+	color: white;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    border-color: #dee2e6 #dee2e6 #fff;
+	color: #fff;
+	background-color: unset;
+}
+
+.card-header {
+	background-color: #434656;
+}
+
+.card {
+	border: none;
+}
+
+.btn, .btn:hover {
+	color: white;
+}
+
+.btn:focus { 
+	outline: none;
+	color: white; 
+	box-shadow: none;
+}
+
+.focus:hover {
+	color: #ffac30;
+}
+
+.btn-add {
+	background-color: #ffac30;
+	border-color: #ffac30;
+	color: #fff;
+}
+
+.search-btn {
+	background-color: #fff;
+	color: black;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+    border-top-color: rgb(206, 212, 218);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(206, 212, 218);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(206, 212, 218);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(206, 212, 218);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+}
+
+.search-btn:hover {
+	color: black;
+}
+
+.search-bar .search-btn {
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* table styles */
+
+.card {
+	max-height: calc(100vh - 194px);
+}
+.card-body {
+	max-height: calc(100vh - 304px);
+	overflow-y: hidden;
+
+}
+.table  tbody {
+	display: block;
+	max-height: calc(100vh - 386px);
+	overflow-y: auto;
+}
+.table thead, .table tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+.table thead th, .table tbody td {
+	text-align: center;
+}
+.table tr .id {
+	display: none;
+}
+.table .actions {
+	padding-top: 0rem !important;
+	padding-bottom: 0rem !important;
+}
+
+/* view modal */
+.user-img {
+	display: block;
+	height: 100px; 
+	width: 100px; 
+	border-radius: 100px; 
+	margin: 10px auto; 
+	margin-bottom: 0px;
+	color: #ffac30;
+}
