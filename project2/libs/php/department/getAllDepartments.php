@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getAllDepartments.php
-
-	// remove next two lines for production	
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("../config.php");
@@ -34,9 +26,9 @@
 
 	$searchReq = '';
 	$dep = ' d.name LIKE "%';
-	$searchReq .= ' ('. $dep . $_REQUEST['val'] . '%") ';
+	$searchReq .= ' ('. $dep . $_PORT['val'] . '%") ';
 
-	if($_REQUEST['val'] == '') {
+	if($_PORT['val'] == '') {
 		$query = 'SELECT d.id, d.name, d.locationID, l.name as location FROM department d LEFT JOIN location l ON (l.id = d.locationID) ORDER BY d.name';
 	} else {
 		$query = 'SELECT d.id, d.name, d.locationID, l.name as location FROM department d LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $searchReq . ' ORDER BY d.name';

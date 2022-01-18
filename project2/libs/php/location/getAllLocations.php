@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getAllDepartments.php
-
-	// remove next two lines for production	
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("../config.php");
@@ -34,9 +26,9 @@
 
 	$searchReq = '';
 	$loc = ' l.name LIKE "%';
-	$searchReq .= ' ('. $loc . $_REQUEST['val'] . '%") ';
+	$searchReq .= ' ('. $loc . $_PORT['val'] . '%") ';
 
-	if($_REQUEST['val'] == '') {
+	if($_PORT['val'] == '') {
 		$query = 'SELECT * FROM location';
 	} else {
 		$query = 'SELECT l.id, l.name FROM location l WHERE' . $searchReq . ' ORDER BY l.name';

@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 	
 	// this includes the login details
@@ -18,7 +10,7 @@
 
     $connEmail = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);	
 
-    $queryEmail = 'SELECT * FROM personnel WHERE email = "' . $_REQUEST['email']. '"';
+    $queryEmail = 'SELECT * FROM personnel WHERE email = "' . $_PORT['email']. '"';
     $resultEmail = $connEmail->query($queryEmail);
     $EmailCheck = [];
 
@@ -32,7 +24,7 @@
 
     $connFirstLastName = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);	
 
-    $queryFirstLastName = 'SELECT * FROM personnel WHERE firstName = "' . $_REQUEST['first'] . '" AND lastName = "' . $_REQUEST['last'] . '"';
+    $queryFirstLastName = 'SELECT * FROM personnel WHERE firstName = "' . $_PORT['first'] . '" AND lastName = "' . $_PORT['last'] . '"';
     $resultFirstLastName = $connFirstLastName->query($queryFirstLastName);
     $FirstLastNameCheck = [];
 
@@ -47,18 +39,18 @@
     $description = '';
     $empty = 'can\'t be empty.';
 
-    if(!$_REQUEST['first'] || !$_REQUEST['last'] || !$_REQUEST['email'] || !$_REQUEST['department'] || count($EmailCheck) > 0 || count($FirstLastNameCheck) > 0)  { 
-        if(!$_REQUEST['first']) {
+    if(!$_PORT['first'] || !$_PORT['last'] || !$_PORT['email'] || !$_PORT['department'] || count($EmailCheck) > 0 || count($FirstLastNameCheck) > 0)  { 
+        if(!$_PORT['first']) {
             $description = 'First name ' . $empty;
         } else if(count($FirstLastNameCheck) > 0) {
             $description = 'This name is already in the database.';
-        } else if(!$_REQUEST['last']) {
+        } else if(!$_PORT['last']) {
             $description = 'Last name ' . $empty;
-        } else if(!$_REQUEST['email']) {
+        } else if(!$_PORT['email']) {
             $description = 'Email ' .  $empty;
         } else if(count($EmailCheck) > 0) {
             $description = 'This email address is already in use.';
-        } else if(!$_REQUEST['department']) {
+        } else if(!$_PORT['department']) {
             $description = 'Department ' . $empty;
         } 
 
@@ -90,11 +82,10 @@
 		}	
 
 		// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-		// $_REQUEST used for development / debugging. Remember to change to $_REQUEST for production
 
 		$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES(?,?,?,?,?)');
 
-		$query->bind_param("ssssi", $_REQUEST['first'], $_REQUEST['last'], $_REQUEST['title'], $_REQUEST['email'], $_REQUEST['department']);
+		$query->bind_param("ssssi", $_PORT['first'], $_PORT['last'], $_PORT['title'], $_PORT['email'], $_PORT['department']);
 
 		$query->execute();
 		

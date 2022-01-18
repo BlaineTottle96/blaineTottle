@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 	
 	// this includes the login details
@@ -16,9 +8,9 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-	if($_REQUEST['department']) {
+	if($_PORT['department']) {
 		$connDep = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-		$queryDep = 'SELECT * FROM department WHERE name = "' . $_REQUEST["department"] . '" AND locationID = ' . $_REQUEST["location"] . ' AND id != ' . $_REQUEST["departmentId"];
+		$queryDep = 'SELECT * FROM department WHERE name = "' . $_PORT["department"] . '" AND locationID = ' . $_PORT["location"] . ' AND id != ' . $_PORT["departmentId"];
 		$resultDep = $connDep->query($queryDep);
 		$DepCheck = [];
 
@@ -36,12 +28,12 @@
 	$emptyLoc = 'Please select the location.';
 	$alreadyExists = 'The department with that name already exists at this location.';
 	
-	if(!$_REQUEST['department'] || !$_REQUEST["location"] || count($DepCheck) > 0) {
-		if(!$_REQUEST['department']) {
+	if(!$_PORT['department'] || !$_PORT["location"] || count($DepCheck) > 0) {
+		if(!$_PORT['department']) {
 			$description = $emptyDep;
 		} else if(count($DepCheck) > 0) {
 			$description = $alreadyExists;
-		} else if(!$_REQUEST["location"]) {
+		} else if(!$_PORT["location"]) {
 			$description = $emptyLoc;
 		}
 
@@ -74,11 +66,10 @@
 		}	
 
 		// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-		// $_REQUEST used for development / debugging. Remember to change to $_REQUEST for production
 
 		$query = $conn->prepare('UPDATE department SET name = ?, locationID = ? WHERE id = ?');
 
-		$query->bind_param("sii", $_REQUEST['department'], $_REQUEST['location'], $_REQUEST["departmentId"]);
+		$query->bind_param("sii", $_PORT['department'], $_PORT['location'], $_PORT["departmentId"]);
 
 		$query->execute();
 		

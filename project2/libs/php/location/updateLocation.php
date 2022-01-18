@@ -1,12 +1,4 @@
 <?php
-    
-    // example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
 	
@@ -16,9 +8,9 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-    if($_REQUEST['location']) {
+    if($_PORT['location']) {
 		$connLoc = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-		$queryLoc = 'SELECT * FROM location WHERE name = "' . $_REQUEST['location'] . '" AND id != ' . $_REQUEST['locationId'];
+		$queryLoc = 'SELECT * FROM location WHERE name = "' . $_PORT['location'] . '" AND id != ' . $_PORT['locationId'];
 		$resultLoc = $connLoc->query($queryLoc);
 		$LocCheck = [];
 		if($resultLoc) {
@@ -43,8 +35,8 @@
 
 	}
 	
-	if(!$_REQUEST['location'] || count($LocCheck) > 0) {
-        if(!$_REQUEST['location']) {
+	if(!$_PORT['location'] || count($LocCheck) > 0) {
+        if(!$_PORT['location']) {
 			$description = $emptyLocation;
 		} else if(count($LocCheck) > 0) {
 			$description = $alreadyExists;
@@ -73,11 +65,10 @@
         }	
 
         // SQL statement accepts parameters and so is prepared to avoid SQL injection.
-        // $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
         $query = $conn->prepare('UPDATE location SET name = ? WHERE id = ?');
 
-        $query->bind_param("si", $_REQUEST['location'], $_REQUEST['locationId']);
+        $query->bind_param("si", $_PORT['location'], $_PORT['locationId']);
 
         $query->execute();
         

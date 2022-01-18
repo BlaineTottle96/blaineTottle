@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getAll.php
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("../config.php");
@@ -32,12 +24,12 @@
 
 	}	
 
-	$departments = explode( ',', $_REQUEST['departments']);
-    $locations = explode( ',', $_REQUEST['locations']);
+	$departments = explode( ',', $_PORT['departments']);
+    $locations = explode( ',', $_PORT['locations']);
     $depSearch = '';
     $locSearch = '';
 
-    if($_REQUEST['departments'] != '') {
+    if($_PORT['departments'] != '') {
         if(count($departments) == 1) {
             $depSearch .=  ' ( d.name = "' . $departments[0] . '")';
         } else if(count($departments) > 1) {
@@ -54,7 +46,7 @@
         $depSearch = '';
     } 
 
-    if($_REQUEST['locations'] != '') {
+    if($_PORT['locations'] != '') {
 		if(count($locations) == 1) {
 			$locSearch .= ' ( l.name = "' . $locations[0] . '")';
 		} else {
@@ -71,11 +63,11 @@
 	    $locSearch = '';
 	} 
 
-	if($_REQUEST['departments'] != '' && $_REQUEST['locations'] != '') {
+	if($_PORT['departments'] != '' && $_PORT['locations'] != '') {
 		$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $depSearch . ' OR ' . $locSearch . ' ORDER BY d.name, p.lastName, p.firstName, l.name';
-	} else if ($_REQUEST['departments'] != '' && $_REQUEST['locations'] == '') {
+	} else if ($_PORT['departments'] != '' && $_PORT['locations'] == '') {
 		$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $depSearch . ' ORDER BY d.name, p.lastName, p.firstName, l.name';
-	} else if ($_REQUEST['departments'] == '' && $_REQUEST['locations'] != '') {
+	} else if ($_PORT['departments'] == '' && $_PORT['locations'] != '') {
         $query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $locSearch . ' ORDER BY d.name, p.lastName, p.firstName, l.name';
     } else {
         $query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) ORDER BY p.lastName, p.firstName, d.name, l.name';
