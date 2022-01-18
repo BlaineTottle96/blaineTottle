@@ -12,5 +12,7 @@
 	$cd_dbname = "companydirectory";
 	$cd_user = "root";
 	$cd_password = "";
-
+	// blainext_CompanyDirectory
+	// blainext_blainext
+	// 9}RG33GGH!r9
 ?>
