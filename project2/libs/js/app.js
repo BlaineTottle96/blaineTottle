@@ -296,7 +296,7 @@ function getAllLocations(val='') {
 		"async": true,
 		"global": false,
 		"type": "POST",
-		"url": "libs/php/Location/getAllLocations.php",
+		"url": "libs/php/location/getAllLocations.php",
 		"dataType": "json",
 		"data": {
 			"val": val,
@@ -350,7 +350,7 @@ function getLocationsFilter(val='') {
 	$.ajax({
 		"async": false,
 		"global": false,
-		"url": "libs/php/Location/getAllLocations.php",
+		"url": "libs/php/location/getAllLocations.php",
 		"dataType": "json",
 		"data": {
 			"val": val,
@@ -470,14 +470,13 @@ function getPersonById(personId, type) {
 		"async": true,
 		"global": false,
 		"type": "POST",
-		"url": "libs/php/personnel/getPersonnelById.php",
+		"url": "libs/php/personnel/getPersonnelByID.php",
 		"dataType": "json",
 		"data": {
 			"id": personId,
 		},
 		success: function(results) {
 			if(type == "view") {
-				console.log(results);
 				viewModal(results);
 			} else if(type == "edit") {
 				$("#editForm").html(`
@@ -526,7 +525,7 @@ function getDepartmentById(depId) {
 		"async": false,
 		"global": false,
 		"type": "POST",
-		"url": "libs/php/department/getDepartmentById.php",
+		"url": "libs/php/department/getDepartmentByID.php",
 		"dataType": "json",
 		"data":{
 			"departmentId": depId,
@@ -823,7 +822,7 @@ function deletePerson(id) {
 		"async": true,
 		"global": false,
 		"type": "POST",
-		"url": "libs/php/personnel/deletePersonnelById.php",
+		"url": "libs/php/personnel/deletePersonnelByID.php",
 		"dataType": "json",
 		"data": {
 			"id": id,
@@ -848,7 +847,7 @@ function deleteDepartment(id) {
 		"async": true,
 		"global": false,
 		"type": "POST",
-		"url": "libs/php/department/deleteDepartmentById.php",
+		"url": "libs/php/department/deleteDepartmentByID.php",
 		"dataType": "json",
 		"data": {
 			"id": id,
@@ -873,7 +872,7 @@ function deleteLocation(id) {
 		"async": true,
 		"global": false,
 		"type": "POST",
-		"url": "libs/php/location/deleteLocationById.php",
+		"url": "libs/php/location/deleteLocationByID.php",
 		"dataType": "json",
 		"data": {
 			"id": id,
