@@ -227,7 +227,7 @@ function deleteModal(type, id) {
 // display alert
 function displayAlert(displayId, status, message){
 	if(status != 200){
-		$(`#${displayId}Alert`).html(`<div class="alert alert-dismissible fade show alert-danger" role="alert">${message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`);
+		$(`#${displayId}Alert`).html(`<div class="alert alert-dismissible alert-danger" role="alert">${message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`);
 	} 
 }
 // display toast
@@ -915,6 +915,7 @@ function validateInputs(formId) {
 function resetForm(formId) {
 	$(`#${formId}Form .form-response`).remove();
 	$(`#${formId}Form .form-required`).removeClass("border-danger");
+	$(`#${formId}Alert .alert`).remove();
 }
 
 // DOCUMENT READY
@@ -926,6 +927,7 @@ $(document).ready(function() {
     $('#personnelTab').on('click', function() {
 		resetForm("new");
 		resetForm("edit");
+		resetForm("delete");
 
 		getAllPersonnel();
 		$('#searchBar').attr('placeholder', 'Search Name');
@@ -934,6 +936,7 @@ $(document).ready(function() {
 	$('#departmentTab').on('click', function() {
 		resetForm("new");
 		resetForm("edit");
+		resetForm("delete");
 
 		getAllDepartments();
 		$('#searchBar').attr('placeholder', 'Search Department');
@@ -942,6 +945,7 @@ $(document).ready(function() {
 	$('#locationTab').on('click', function() {
 		resetForm("new");
 		resetForm("edit");
+		resetForm("delete");
 
 		getAllLocations();
 		$('#searchBar').attr('placeholder', 'Search Location');

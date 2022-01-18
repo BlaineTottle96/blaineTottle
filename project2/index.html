@@ -61,7 +61,7 @@
             <!-- Options end -->
             <!-- ===== Personnel card ===== -->
             <div id="personnel" class="card tab-pane fade show active shadow" role="tabpanel" aria-labelledby="personnelTab">
-				<div class="card-header d-flex justify-content-between">
+				<div class="card-header header-color d-flex justify-content-between">
                     <h5 class="align-self-end text-white">Personnel <span id="countPersonnel" class="badge rounded-pill btn-add ms-2"></span></h5>
                     <button type="button" id="newPersonBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newModal" title="new"><i class="fas fa-plus"></i></button>
                 </div>
@@ -86,7 +86,7 @@
             <!-- Personnel card end -->
             <!-- ===== Department card ===== -->
             <div id="department" class="card tab-pane fade shadow" role="tabpanel" aria-labelledby="departmentTab">
-				<div class="card-header d-flex justify-content-between">
+				<div class="card-header header-color d-flex justify-content-between">
                     <h5 class="align-self-end text-white">Departments  <span id="countDepartments" class="badge rounded-pill btn-add ms-2"></span></h5>
                     <button type="button" id="newDepBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newModal" title="new"><i class="fas fa-plus"></i></button>
                 </div>
@@ -110,7 +110,7 @@
             <!-- Department card end -->
             <!-- ===== Locations card ===== -->
             <div id="location" class="card tab-pane fade shadow" role="tabpanel" aria-labelledby="locationTab">
-				<div class="card-header d-flex justify-content-between">
+				<div class="card-header header-color d-flex justify-content-between">
                     <h5 class="align-self-end text-white">Locations  <span id="countLocations" class="badge rounded-pill btn-add ms-2"></span></h5>
                     <button type="button" id="newLocBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newModal" title="new"><i class="fas fa-plus"></i></button>
                 </div>
@@ -141,8 +141,8 @@
     <div id="filterModal" class="modal fade" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="modalTitle">Filters</h5>
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white" id="modalTitle">Filters</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -164,8 +164,8 @@
     <div id="newModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">New <span id="newType"></span></h5>
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white">New <span id="newType"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -184,8 +184,8 @@
     <div id="personModal" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="personName"></h5>
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white" id="personName"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -203,8 +203,8 @@
     <div id="editModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Edit <span id="editType"></span></h5>
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white">Edit <span id="editType"></span></h5>
                     <span id="editId" class="d-none"></span>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
@@ -224,8 +224,8 @@
     <div id="deleteModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Delete <span id="deleteType"></span></h5>
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white">Delete <span id="deleteType"></span></h5>
 					<span id="deleteId" class="d-none"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
