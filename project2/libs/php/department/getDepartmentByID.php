@@ -24,11 +24,13 @@
 
 	}	
 
+	$department = $_PORT['departmentId'];
+
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 
 	$query = $conn->prepare('SELECT id, name, locationID FROM department WHERE id =  ?');
 
-	$query->bind_param("i", $_PORT['departmentId']);
+	$query->bind_param("i", $department);
 
 	$query->execute();
 	
@@ -50,7 +52,7 @@
 
    	$data = [];
 
-	while ($row = mysqli_fetch_assoc($result)) {
+	while ($row = $result->fetch_assoc()) {
 
 		array_push($data, $row);
 
