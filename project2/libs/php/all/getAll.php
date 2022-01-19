@@ -28,9 +28,9 @@
 	$first = ' p.firstName LIKE "%';
 	$second = '%" OR p.lastName LIKE "%';
 
-	$searchReq .= ' ('. $first . $_PORT['val'] . $second . $_PORT['val'] . '%") ';
+	$searchReq .= ' ('. $first . $_POST['val'] . $second . $_POST['val'] . '%") ';
 
-	if($_PORT['val'] == '') {
+	if($_POST['val'] == '') {
 		$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) ORDER BY p.lastName, p.firstName, d.name, l.name';
 	} else {
 		$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $searchReq . ' ORDER BY p.lastName, p.firstName, d.name, l.name';

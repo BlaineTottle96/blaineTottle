@@ -7,7 +7,7 @@
 	header('Content-Type: application/json; charset=UTF-8');
 
 	$connCheckDep = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-	$queryDep = 'SELECT * FROM department WHERE locationID = ' . $_PORT['id'];
+	$queryDep = 'SELECT * FROM department WHERE locationID = ' . $_POST['id'];
 	$resultDep = $connCheckDep->query($queryDep);
 	$DepCheck = [];
 	if($resultDep) {
@@ -50,7 +50,7 @@
 
 		$query = $conn->prepare('DELETE FROM location WHERE id = ?');
 		
-		$query->bind_param("i", $_PORT['id']);
+		$query->bind_param("i", $_POST['id']);
 
 		$query->execute();
 		

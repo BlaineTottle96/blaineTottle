@@ -26,9 +26,9 @@
 
 	$searchReq = '';
 	$dep = ' d.name LIKE "%';
-	$searchReq .= ' ('. $dep . $_PORT['val'] . '%") ';
+	$searchReq .= ' ('. $dep . $_POST['val'] . '%") ';
 
-	if($_PORT['val'] == '') {
+	if($_POST['val'] == '') {
 		$query = 'SELECT d.id, d.name, d.locationID, l.name as location FROM department d LEFT JOIN location l ON (l.id = d.locationID) ORDER BY d.name';
 	} else {
 		$query = 'SELECT d.id, d.name, d.locationID, l.name as location FROM department d LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $searchReq . ' ORDER BY d.name';

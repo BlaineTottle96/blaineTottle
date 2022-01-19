@@ -24,7 +24,7 @@
 
 	}	
 
-	$department = $_PORT['departmentId'];
+	$department = $_POST['departmentId'];
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 

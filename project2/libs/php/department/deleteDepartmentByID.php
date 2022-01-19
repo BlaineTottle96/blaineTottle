@@ -7,7 +7,7 @@
 	header('Content-Type: application/json; charset=UTF-8');
 
 	$connCheckPersonnel = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-	$queryPersonnel = 'SELECT * FROM personnel WHERE departmentID = ' . $_PORT['id'];
+	$queryPersonnel = 'SELECT * FROM personnel WHERE departmentID = ' . $_POST['id'];
 	$resultPersonnel = $connCheckPersonnel->query($queryPersonnel);
 	$PersonnelCheck = [];
 
@@ -46,11 +46,11 @@
 		}	
 
 		// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-		// $_PORT used for development / debugging. Remember to change to $_POST for production
+		// $_POST used for development / debugging. Remember to change to $_POST for production
 
 		$query = $conn->prepare('DELETE FROM department WHERE id = ?');
 		
-		$query->bind_param("i", $_PORT['id']);
+		$query->bind_param("i", $_POST['id']);
 
 		$query->execute();
 		

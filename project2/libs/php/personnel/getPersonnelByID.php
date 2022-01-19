@@ -28,7 +28,7 @@
 
 	$query = $conn->prepare('SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, p.departmentID, d.name as department, l.name, l.id as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE p.id = ?');
 
-	$query->bind_param("i", $_PORT['id']);
+	$query->bind_param("i", $_POST['id']);
 
 	$query->execute();
 	

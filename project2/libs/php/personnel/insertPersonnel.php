@@ -10,7 +10,7 @@
 
     $connEmail = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);	
 
-    $queryEmail = 'SELECT * FROM personnel WHERE email = "' . $_PORT['email']. '"';
+    $queryEmail = 'SELECT * FROM personnel WHERE email = "' . $_POST['email']. '"';
     $resultEmail = $connEmail->query($queryEmail);
     $EmailCheck = [];
 
@@ -24,7 +24,7 @@
 
     $connFirstLastName = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);	
 
-    $queryFirstLastName = 'SELECT * FROM personnel WHERE firstName = "' . $_PORT['first'] . '" AND lastName = "' . $_PORT['last'] . '"';
+    $queryFirstLastName = 'SELECT * FROM personnel WHERE firstName = "' . $_POST['first'] . '" AND lastName = "' . $_POST['last'] . '"';
     $resultFirstLastName = $connFirstLastName->query($queryFirstLastName);
     $FirstLastNameCheck = [];
 
@@ -39,18 +39,18 @@
     $description = '';
     $empty = 'can\'t be empty.';
 
-    if(!$_PORT['first'] || !$_PORT['last'] || !$_PORT['email'] || !$_PORT['department'] || count($EmailCheck) > 0 || count($FirstLastNameCheck) > 0)  { 
-        if(!$_PORT['first']) {
+    if(!$_POST['first'] || !$_POST['last'] || !$_POST['email'] || !$_POST['department'] || count($EmailCheck) > 0 || count($FirstLastNameCheck) > 0)  { 
+        if(!$_POST['first']) {
             $description = 'First name ' . $empty;
         } else if(count($FirstLastNameCheck) > 0) {
             $description = 'This name is already in the database.';
-        } else if(!$_PORT['last']) {
+        } else if(!$_POST['last']) {
             $description = 'Last name ' . $empty;
-        } else if(!$_PORT['email']) {
+        } else if(!$_POST['email']) {
             $description = 'Email ' .  $empty;
         } else if(count($EmailCheck) > 0) {
             $description = 'This email address is already in use.';
-        } else if(!$_PORT['department']) {
+        } else if(!$_POST['department']) {
             $description = 'Department ' . $empty;
         } 
 
@@ -85,7 +85,7 @@
 
 		$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES(?,?,?,?,?)');
 
-		$query->bind_param("ssssi", $_PORT['first'], $_PORT['last'], $_PORT['title'], $_PORT['email'], $_PORT['department']);
+		$query->bind_param("ssssi", $_POST['first'], $_POST['last'], $_POST['title'], $_POST['email'], $_POST['department']);
 
 		$query->execute();
 		

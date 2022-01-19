@@ -26,9 +26,9 @@
 
 	$searchReq = '';
 	$loc = ' l.name LIKE "%';
-	$searchReq .= ' ('. $loc . $_PORT['val'] . '%") ';
+	$searchReq .= ' ('. $loc . $_POST['val'] . '%") ';
 
-	if($_PORT['val'] == '') {
+	if($_POST['val'] == '') {
 		$query = 'SELECT * FROM location';
 	} else {
 		$query = 'SELECT l.id, l.name FROM location l WHERE' . $searchReq . ' ORDER BY l.name';

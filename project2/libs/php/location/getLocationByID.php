@@ -28,7 +28,7 @@
 
 	$query = $conn->prepare('SELECT id, name FROM location WHERE id =  ?');
 
-	$query->bind_param("i", $_PORT['departmentLocationId']);
+	$query->bind_param("i", $_POST['departmentLocationId']);
 
 	$query->execute();
 	

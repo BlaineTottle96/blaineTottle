@@ -8,9 +8,9 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-    if($_PORT['location']) {
+    if($_POST['location']) {
 		$connLoc = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-		$queryLoc = 'SELECT * FROM location WHERE name = "' . $_PORT['location'] . '"';
+		$queryLoc = 'SELECT * FROM location WHERE name = "' . $_POST['location'] . '"';
 		$resultLoc = $connLoc->query($queryLoc);
 		$LocCheck = [];
 		if($resultLoc) {
@@ -35,8 +35,8 @@
 
 	}
 	
-	if(!$_PORT['location'] || count($LocCheck) > 0) {
-        if(!$_PORT['location']) {
+	if(!$_POST['location'] || count($LocCheck) > 0) {
+        if(!$_POST['location']) {
 			$description = $emptyLocation;
 		} else if(count($LocCheck) > 0) {
 			$description = $alreadyExists;
@@ -68,7 +68,7 @@
 
         $query = $conn->prepare('INSERT INTO location (name) VALUE (?)');
 
-        $query->bind_param("s", $_PORT['location']);
+        $query->bind_param("s", $_POST['location']);
 
         $query->execute();
         
