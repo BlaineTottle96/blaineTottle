@@ -50,9 +50,9 @@
 
 	$result = $query->get_result();
 
-   	$data = array();
+   	$data = [];
 
-	while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+	while ($row = mysqli_fetch_assoc($result)) {
 
 		array_push($data, $row);
 
