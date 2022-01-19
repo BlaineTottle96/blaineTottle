@@ -28,7 +28,7 @@
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 
-	$query = $conn->prepare('SELECT id, name, locationID FROM department WHERE id =  ?');
+	$query = $conn->prepare('SELECT id, name, locationID FROM department WHERE id = ?');
 
 	$query->bind_param("i", $department);
 
@@ -50,9 +50,9 @@
 
 	$result = $query->get_result();
 
-   	$data = [];
+   	$data = array();
 
-	while ($row = $result->fetch_assoc()) {
+	while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
 		array_push($data, $row);
 
