@@ -8,9 +8,9 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-	if($_REQUEST['department']) {
+	if($_POST['department']) {
 		$connDep = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-		$queryDep = 'SELECT id FROM department WHERE name = "' . $_REQUEST["department"] . '" AND locationID = ' . $_REQUEST["location"] . ' AND id != ' . $_REQUEST["departmentId"];
+		$queryDep = 'SELECT id FROM department WHERE name = "' . $_POST["department"] . '" AND locationID = ' . $_POST["location"] . ' AND id != ' . $_POST["departmentId"];
 		$resultDep = $connDep->query($queryDep);
 		$DepCheck = [];
 
@@ -28,12 +28,12 @@
 	$emptyLoc = 'Please select the location.';
 	$alreadyExists = 'The department with that name already exists at this location.';
 	
-	if(!$_REQUEST['department'] || !$_REQUEST["location"] || count($DepCheck) > 0) {
-		if(!$_REQUEST['department']) {
+	if(!$_POST['department'] || !$_POST["location"] || count($DepCheck) > 0) {
+		if(!$_POST['department']) {
 			$description = $emptyDep;
 		} else if(count($DepCheck) > 0) {
 			$description = $alreadyExists;
-		} else if(!$_REQUEST["location"]) {
+		} else if(!$_POST["location"]) {
 			$description = $emptyLoc;
 		}
 
@@ -69,7 +69,7 @@
 
 		$query = $conn->prepare('UPDATE department SET name = ?, locationID = ? WHERE id = ?');
 
-		$query->bind_param("sii", $_REQUEST['department'], $_REQUEST['location'], $_REQUEST["departmentId"]);
+		$query->bind_param("sii", $_POST['department'], $_POST['location'], $_POST["departmentId"]);
 
 		$query->execute();
 		
