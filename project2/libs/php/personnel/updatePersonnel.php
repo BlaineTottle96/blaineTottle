@@ -10,7 +10,7 @@
 
     $connEmail = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);	
 
-    $queryEmail = 'SELECT * FROM personnel WHERE email = "' . $_POST['email'] . '" AND id != "' . $_POST['id'] . '"';
+    $queryEmail = 'SELECT id FROM personnel WHERE email = "' . $_REQUEST['email'] . '" AND id != "' . $_REQUEST['id'] . '"';
     
     $resultEmail = $connEmail->query($queryEmail);
     $EmailCheck = [];
@@ -25,7 +25,7 @@
 
     $connFirstLastName = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);	
 
-    $queryFirstLastName = 'SELECT * FROM personnel WHERE firstName = "' . $_POST['first'] . '" AND lastName = "' . $_POST['last'] . '" AND id != "' . $_POST['id'] . '"';
+    $queryFirstLastName = 'SELECT id FROM personnel WHERE firstName = "' . $_REQUEST['first'] . '" AND lastName = "' . $_REQUEST['last'] . '" AND id != "' . $_REQUEST['id'] . '"';
     $resultFirstLastName = $connFirstLastName->query($queryFirstLastName);
     $FirstLastNameCheck = [];
 
@@ -40,18 +40,18 @@
     $description = '';
     $empty = 'can\'t be empty.';
 
-    if(!$_POST['first'] || !$_POST['last'] || !$_POST['email'] || !$_POST['department'] || count($EmailCheck) > 0 || count($FirstLastNameCheck) > 0)  { 
-        if(!$_POST['first']) {
+    if(!$_REQUEST['first'] || !$_REQUEST['last'] || !$_REQUEST['email'] || !$_REQUEST['department'] || count($EmailCheck) > 0 || count($FirstLastNameCheck) > 0)  { 
+        if(!$_REQUEST['first']) {
             $description = 'First name ' . $empty;
         } else if(count($FirstLastNameCheck) > 0) {
             $description = 'This name is already in the database.';
-        } else if(!$_POST['last']) {
+        } else if(!$_REQUEST['last']) {
             $description = 'Last name ' . $empty;
-        } else if(!$_POST['email']) {
+        } else if(!$_REQUEST['email']) {
             $description = 'Email ' .  $empty;
         } else if(count($EmailCheck) > 0) {
             $description = 'This email address is already in use.';
-        } else if(!$_POST['department']) {
+        } else if(!$_REQUEST['department']) {
             $description = 'Department ' . $empty;
         } 
 
@@ -86,7 +86,7 @@
 
 		$query = $conn->prepare('UPDATE personnel SET firstName = ?, lastName = ?, jobTitle = ?, email = ?, departmentID = ? WHERE id = ?');
 
-		$query->bind_param("ssssii", $_POST['first'], $_POST['last'], $_POST['title'], $_POST['email'], $_POST['department'], $_POST['id']);
+		$query->bind_param("ssssii", $_REQUEST['first'], $_REQUEST['last'], $_REQUEST['title'], $_REQUEST['email'], $_REQUEST['department'], $_REQUEST['id']);
 
 		$query->execute();
 		

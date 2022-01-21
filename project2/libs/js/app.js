@@ -12,13 +12,14 @@ function tableDisplay(object, tableId) {
 					content += `
                     <tr>
                         <td class="id">${value.id}</td>
-						<td class="first d-none d-md-table-cell">${value.firstName}</td>
-						<td class="last">${value.lastName}</td>
+						<td class="first">${value.firstName} ${value.lastName}</td>
+						<td class="d-none d-md-table-cell">${value.jobTitle}</td>
 						<td class="dept d-none d-md-table-cell">${value.department}</td>
 						<td class="actions align-middle">
 							<div class="btn-group" role="group">
-								<button id="personViewBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#personModal"><i class="fas fa-id-card"></i></button>
+								<button id="personViewBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#personModal"><i class="fas fa-eye"></i></button>
 								<button id="editBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i></button>
+								<a href="mailto:${value.email}" class="btn text-primary"><i class="fas fa-envelope"></i></a>
 								<button id="deleteBtn" class="btn text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
 							</div>
 						</td>
@@ -142,7 +143,9 @@ function newModal(type) {
 	}
 	$("#newType").html(type).css("text-transform", "capitalize");
 	$("#newForm").html(content);
-	// $("#newModal").modal("show");
+	$("#newModal").addEventListener('shown.bs.modal', function() {
+		$("#newModal").modal("show");
+	});
 }
 // display options
 function displayOptions(object, selectedValue) {
@@ -186,43 +189,37 @@ function editModal(type, id) {
 			break;
 
 		case "department":
-			getDepartmentById(id);
+			getDepartmentById(id, "edit");
 			break;
 
 		case "location":
-			getLocationById(id);
+			getLocationById(id, "edit");
 			break;
 	}
 
-	$("#editModal").modal("show");
+	$("#editModal").addEventListener('shown.bs.modal', function() {
+		$("#editModal").modal("show");
+	});
 }
 // display delete modal
-function deleteModal(type, id) {
+function deleteModal(type, id, results) {
 	$("#deleteType").html(type).css("text-transform", "capitalize");
-
 	let content = ""
 	switch (type){
 		case "personnel":
-			content = `<h6>Do you wish to delete record?</h6>
-				<button id="deleteYes" class="btn btn-add">Yes</button>
-				<button id="deleteNo" class="btn btn-danger" data-bs-dismiss="modal">No</button>`;
+			content = `${results.data.personnel[0].firstName} ${results.data.personnel[0].lastName}`;
 			break;
 
 		case "department":
-			content = `<h6>Do you wish to delete department?</h6>
-				<button id="deleteYes" class="btn btn-add">Yes</button>
-				<button id="deleteNo" class="btn btn-danger" data-bs-dismiss="modal">No</button>`;
+			content = `${results.data[0].name}`;
 			break;
 
 		case "location":
-			content = `<h6>Do you wish to delete location?</h6>
-				<button type="button" id="deleteYes" class="btn btn-add">Yes</button>
-				<button id="deleteNo" class="btn btn-danger" data-bs-dismiss="modal">No</button>`;
+			content = `${results.data[0].name}`;
 			break;
 	}
 	$("#deleteContent").html(content);
 	$("#deleteId").html(id);
-	$("#deleteModal").modal("show");
 }
 // display alert
 function displayAlert(displayId, status, message){
@@ -512,6 +509,8 @@ function getPersonById(personId, type) {
 						</select>
 					</div>
 				</div>`);
+			} else {
+				deleteModal(type, personId, results);
 			}
 			
 		}, error: function() {
@@ -520,7 +519,7 @@ function getPersonById(personId, type) {
 	});
 }
 // get department by id
-function getDepartmentById(depId) {
+function getDepartmentById(depId, type) {
 	$.ajax({
 		"async": false,
 		"global": false,
@@ -531,23 +530,29 @@ function getDepartmentById(depId) {
 			"departmentId": depId,
 		},
 		success: function(results) {
-			$("#editForm").html(`<div class="form-group">
-				<label for="editDep">Department Name<span class="text-danger">*</span></label>
-				<input type="text" id="editDep" class="form-control form-required" value="${results.data[0].name}">
-			</div>
-			<div class="form-group">
-				<label for="editLocation">Department Location<span class="text-danger">*</span></label>
-				<select id="editLocation" class="form-control form-required"">
-					${getLocations()}
-				</select>
-			</div>`);
+			if (type == "edit") {
+				$("#editForm").html(`
+				<div class="form-group">
+					<label for="editDep">Department Name<span class="text-danger">*</span></label>
+					<input type="text" id="editDep" class="form-control form-required" value="${results.data[0].name}">
+				</div>
+				<div class="form-group">
+					<label for="editLocation">Department Location<span class="text-danger">*</span></label>
+					<select id="editLocation" class="form-control form-required"">
+						${getLocations()}
+					</select>
+				</div>`);
+			} else {
+				deleteModal(type, depId, results);
+			}
+			
 		}, error: function(){
 			console.log("Error occured getting department by id!");
 		}
 	});
 }
 // get location by id
-function getLocationById(locationId) {
+function getLocationById(locationId, type) {
 	$.ajax({
 		"async": false,
 		"global": false,
@@ -558,11 +563,16 @@ function getLocationById(locationId) {
 			"departmentLocationId": locationId,
 		},
 		success: function(results) {
-			$("#editForm").html(`
+			if (type == "edit") {
+				$("#editForm").html(`
 				<div class="form-group">
 					<label for="editLocation">Location Name<span class="text-danger">*</span></label>
 					<input type="text" id="editLocation" class="form-control form-required" value="${results.data[0].name}">
 				</div>`);
+			} else {
+				deleteModal(type, locationId, results);
+			}
+			
 		}, error: function() {
 			console.log("Error occured getting location by id!");
 		}
@@ -917,6 +927,15 @@ function resetForm(formId) {
 	$(`#${formId}Alert .alert`).remove();
 }
 
+// PRELOADER
+$(window).on('load', function () {
+	if ($('#preloader').length) {
+		$('#preloader').delay(1000).fadeOut('slow',function () {
+			$(this).remove();
+		});
+	}
+});
+
 // DOCUMENT READY
 $(document).ready(function() {
     // Load info
@@ -927,6 +946,7 @@ $(document).ready(function() {
 		resetForm("new");
 		resetForm("edit");
 		resetForm("delete");
+		$('#filterBtn').removeClass('disabled');
 
 		getAllPersonnel();
 		$('#searchBar').attr('placeholder', 'Search Name');
@@ -936,6 +956,7 @@ $(document).ready(function() {
 		resetForm("new");
 		resetForm("edit");
 		resetForm("delete");
+		$('#filterBtn').addClass('disabled');
 
 		getAllDepartments();
 		$('#searchBar').attr('placeholder', 'Search Department');
@@ -945,6 +966,7 @@ $(document).ready(function() {
 		resetForm("new");
 		resetForm("edit");
 		resetForm("delete");
+		$('#filterBtn').addClass('disabled');
 
 		getAllLocations();
 		$('#searchBar').attr('placeholder', 'Search Location');
@@ -970,6 +992,9 @@ $(document).ready(function() {
 	$('#filterApplyBtn').on('click', function() {
 		checkedFilters();
 		$('#filterModal').modal('hide');
+	});
+	$('#filterClearBtn').on('click', function() {
+		$('input[type=checkbox]').prop('checked', false);
 	});
 
 	// Add btns
@@ -1012,7 +1037,14 @@ $(document).ready(function() {
 	// delete btns
 	$(document).on("click", "tbody tr #deleteBtn", function() {
 		let id = $(this).parent().parent().siblings().html();
-		deleteModal(getType(), id);
+		let type = getType();
+		if (type == "personnel") {
+			getPersonById(id, type);
+		} else if (type == "department") {
+			getDepartmentById(id, type);
+		} else {
+			getLocationById(id, type);
+		}
 	});
 	$(document).on("click", "#deleteYes", function() {
 		let id = $("#deleteId").html();

@@ -24,7 +24,7 @@
 
 	}	
 
-	$department = $_POST['departmentId'];
+	$department = $_REQUEST['departmentId'];
 
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 

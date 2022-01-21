@@ -24,12 +24,12 @@
 
 	}	
 
-	$departments = explode( ',', $_POST['departments']);
-    $locations = explode( ',', $_POST['locations']);
+	$departments = explode( ',', $_REQUEST['departments']);
+    $locations = explode( ',', $_REQUEST['locations']);
     $depSearch = '';
     $locSearch = '';
 
-    if($_POST['departments'] != '') {
+    if($_REQUEST['departments'] != '') {
         if(count($departments) == 1) {
             $depSearch .=  ' ( d.name = "' . $departments[0] . '")';
         } else if(count($departments) > 1) {
@@ -46,7 +46,7 @@
         $depSearch = '';
     } 
 
-    if($_POST['locations'] != '') {
+    if($_REQUEST['locations'] != '') {
 		if(count($locations) == 1) {
 			$locSearch .= ' ( l.name = "' . $locations[0] . '")';
 		} else {
@@ -63,11 +63,11 @@
 	    $locSearch = '';
 	} 
 
-	if($_POST['departments'] != '' && $_POST['locations'] != '') {
+	if($_REQUEST['departments'] != '' && $_REQUEST['locations'] != '') {
 		$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $depSearch . ' OR ' . $locSearch . ' ORDER BY d.name, p.lastName, p.firstName, l.name';
-	} else if ($_POST['departments'] != '' && $_POST['locations'] == '') {
+	} else if ($_REQUEST['departments'] != '' && $_REQUEST['locations'] == '') {
 		$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $depSearch . ' ORDER BY d.name, p.lastName, p.firstName, l.name';
-	} else if ($_POST['departments'] == '' && $_POST['locations'] != '') {
+	} else if ($_REQUEST['departments'] == '' && $_REQUEST['locations'] != '') {
         $query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ' . $locSearch . ' ORDER BY d.name, p.lastName, p.firstName, l.name';
     } else {
         $query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) ORDER BY p.lastName, p.firstName, d.name, l.name';

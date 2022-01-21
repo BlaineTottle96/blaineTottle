@@ -10,6 +10,7 @@ h1 {
 }
 
 /* nav styles */
+
 .nav-link:focus, .nav-link:hover {
 	color: white;
 }
@@ -97,18 +98,33 @@ h1 {
 	overflow-y: hidden;
 
 }
+
+.card-header {
+	cursor: default;
+}
+
 .table  tbody {
 	display: block;
 	max-height: calc(100vh - 386px);
 	overflow-y: auto;
+	cursor: default;
 }
 .table thead, .table tbody tr {
 	display: table;
 	width: 100%;
 	table-layout: fixed;
 }
-.table thead th, .table tbody td {
+.table thead th {
+	text-align: left;
+	cursor: default;
+} 
+
+.table thead .header-actions {
 	text-align: center;
+}
+
+.table tbody td {
+	text-align: left;
 }
 .table tr .id {
 	display: none;
@@ -116,6 +132,7 @@ h1 {
 .table .actions {
 	padding-top: 0rem !important;
 	padding-bottom: 0rem !important;
+	text-align: center;
 }
 
 /* view modal */
@@ -127,4 +144,52 @@ h1 {
 	margin: 10px auto; 
 	margin-bottom: 0px;
 	color: #ffac30;
+}
+
+/* Pre loader */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #fff;
+}
+
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    border: 6px solid #f2f2f2;
+    border-top: 6px solid #56829e ;
+    border-radius: 50%;width: 60px;
+    height: 60px; 
+    -webkit-animation: animate-preloader 1s linear infinite;
+    animation: animate-preloader 1s linear infinite;
+}
+
+@-webkit-keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }

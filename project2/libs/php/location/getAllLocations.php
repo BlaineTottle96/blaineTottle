@@ -26,10 +26,10 @@
 
 	$searchReq = '';
 	$loc = ' l.name LIKE "%';
-	$searchReq .= ' ('. $loc . $_POST['val'] . '%") ';
+	$searchReq .= ' ('. $loc . $_REQUEST['val'] . '%") ';
 
-	if($_POST['val'] == '') {
-		$query = 'SELECT * FROM location';
+	if($_REQUEST['val'] == '') {
+		$query = 'SELECT id, name FROM location';
 	} else {
 		$query = 'SELECT l.id, l.name FROM location l WHERE' . $searchReq . ' ORDER BY l.name';
 	}

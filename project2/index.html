@@ -70,10 +70,10 @@
 						<thead>
 							<tr>
                                 <th scope="col" class="id">Id</th>
-								<th scope="col" class="d-none d-md-table-cell">First</th>
-								<th scope="col">Surname</th>
+								<th scope="col">Name</th>
+								<th scope="col" class="d-none d-md-table-cell">Job Title</th>
 								<th scope="col" class="d-none d-md-table-cell">Department</th>
-								<th>Actions</th>
+								<th scope="col" class="header-actions">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="personnelTable"></tbody>
@@ -97,7 +97,7 @@
 								<th class="id" scope="col">Id</th>
 								<th scope="col">Department</th>
 								<th scope="col" class="d-none d-md-table-cell">Location</th>
-								<th>Actions</th>
+								<th scope="col" class="header-actions">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="departmentTable"></tbody>
@@ -120,7 +120,7 @@
 							<tr>
 								<th class="id" scope="col">Id</th>
 								<th scope="col">Location</th>
-								<th>Actions</th>
+								<th scope="col" class="header-actions">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="locationTable"></tbody>
@@ -137,9 +137,12 @@
     </main>
     <!-- Main end -->
 
+	<!-- Pre loader -->
+	<div id="preloader"></div>
+
     <!-- ===== Filter modal ===== -->
     <div id="filterModal" class="modal fade" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header header-color">
 					<h5 class="modal-title text-white" id="modalTitle">Filters</h5>
@@ -147,14 +150,15 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div class="form-row">
+						<div class="form-row d-flex justify-content-around">
 							<div id="filterDepartment" class="col-md-4"></div>
 							<div id="filterLocation" class="col-md-4"></div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="filterApplyBtn" class="btn btn-add" data-dismiss="modal">Apply</button>
+					<button type="button" id="filterApplyBtn" class="btn btn-add" data-dismiss="modal">Save</button>
+					<button type="button" id="filterClearBtn" class="btn btn-danger">Clear</button>
 				</div>
 			</div>
 		</div>
@@ -173,7 +177,7 @@
 					<form id="newForm"></form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="newSubmitBtn" class="btn btn-add">Submit</button>
+					<button type="button" id="newSubmitBtn" class="btn btn-add">Save</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -189,7 +193,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<i class="fas fa-user-circle fa-10x user-img"></i><!-- <img src="images/profile.png" class="card-img-top" alt="" style="display: block; height: 100px; width: 100px; border-radius: 100px; margin: 10px auto; margin-bottom: 0px;"> -->
+					<i class="fas fa-user-circle fa-10x user-img"></i>
 					<h5 class="card-title text-center mt-3" id="personDepartment"></h5>
 					<p class="card-text text-center" id="personLocation"></p>
                     <p class="card-text text-center" id="contactInfo"></p>
@@ -213,7 +217,7 @@
 					<form id="editForm"></form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="editSubmitBtn" class="btn btn-add">Submit</button>
+					<button type="button" id="editSubmitBtn" class="btn btn-add">Save</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -225,15 +229,20 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header header-color">
-					<h5 class="modal-title text-white">Delete <span id="deleteType"></span></h5>
+					<h5 class="modal-title text-white">Delete <span id="deleteType"></span>?</h5>
 					<span id="deleteId" class="d-none"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div id="deleteAlert"></div>
-					<div id="deleteContent" class="text-center"></div>
+					<div class="text-center">
+						<h6>Are you sure you want to delete <span id="deleteContent"></span>?</h6>
+					</div>
 				</div>
-				<div class="modal-footer"></div>
+				<div class="modal-footer">
+					<button type="button" id="deleteYes" class="btn btn-add">Yes</button>
+					<button id="deleteNo" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+				</div>
 			</div>
 		</div>
 	</div>
