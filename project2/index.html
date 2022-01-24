@@ -76,7 +76,8 @@
 								<th scope="col" class="header-actions">Actions</th>
 							</tr>
 						</thead>
-						<tbody id="personnelTable"></tbody>
+						<tbody id="personnelTable">
+						</tbody>
 					</table>
 				</div>
 				<div class="card-footer">
@@ -100,7 +101,9 @@
 								<th scope="col" class="header-actions">Actions</th>
 							</tr>
 						</thead>
-						<tbody id="departmentTable"></tbody>
+						<tbody id="departmentTable">
+							<tr><td colspan="3" id="depError" class="d-none"></td></tr>
+						</tbody>
 					</table>
 				</div>
 				<div class="card-footer">
@@ -123,7 +126,9 @@
 								<th scope="col" class="header-actions">Actions</th>
 							</tr>
 						</thead>
-						<tbody id="locationTable"></tbody>
+						<tbody id="locationTable">
+							<tr><td colspan="3" id="locError" class="d-none"></td></tr>
+						</tbody>
 					</table>
 				</div>
 				<div class="card-footer">
@@ -173,7 +178,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="newPersonAlert"></div>
+					<div id="newPersonAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="newPersonMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<form id="newPersonForm">
 						<div class="row">
 							<div class="form-group col-12 col-md-6">
@@ -220,7 +225,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="newDepartmentAlert"></div>
+					<div id="newDepartmentAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="newDepartmentMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<form id="newDepartmentForm">
 						<div class="form-group">
 							<label for="addDepartment">Department Name<span class="text-danger">*</span></label>
@@ -247,7 +252,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="newLocationAlert"></div>
+					<div id="newLocationAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="newLocationMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<form id="newLocationForm">
 						<div class="form-group">
 							<label for="addLocation">Location Name<span class="text-danger">*</span></label>
@@ -292,7 +297,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="editPersonAlert"></div>
+					<div id="editPersonAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="editPersonMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<form id="editPersonForm">
 						<div class="row">
 							<div class="form-group col-12 col-md-6">
@@ -340,7 +345,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="editDepartmentAlert"></div>
+					<div id="editDepartmentAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="editDepartmentMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<form id="editDepartmentForm">
 						<div class="form-group">
 							<label for="editDep">Department Name<span class="text-danger">*</span></label>
@@ -368,7 +373,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="editLocationAlert"></div>
+					<div id="editLocationAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="editLocationMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<form id="editLocationForm">
 						<div class="form-group">
 							<label for="editLocation">Location Name<span class="text-danger">*</span></label>
@@ -394,7 +399,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="deleteAlert"></div>
+					<div id="deleteAlert" class="alert alert-dismissible alert-danger d-none role="alert"><span id="deleteMessage"></span><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
 					<div class="text-center">
 						<h6>Are you sure you want to delete <span id="deleteContent"></span>?</h6>
 					</div>

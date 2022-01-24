@@ -6,7 +6,7 @@ function tableDisplay(object, tableId) {
 	switch (tableId) {
 		case "personnel":
 			if (object.data.length == 0) {
-				content = '<tr><td colspan="3">No personnel records match search criteria.</td></tr>';
+				content += 'No personnel records match search criteria.';
 			} else {
 				for (const [key, value] of Object.entries(object.data)) {
 					content += `
@@ -31,7 +31,7 @@ function tableDisplay(object, tableId) {
 
 		case "department":
 			if (object.data.length == 0) {
-				content = '<tr><td colspan="3">No departments match search criteria.</td></tr>';
+				content += 'No departments match search criteria.';
 			} else {
 				for (const [key, value] of Object.entries(object.data)) {
 					content += `
@@ -52,7 +52,7 @@ function tableDisplay(object, tableId) {
 
 		case "location":
 			if (object.data.length == 0) {
-				content = '<tr><td colspan="2">No locations match search criteria.</td></tr>';
+				content += 'No locations match search criteria.';
 			} else {
 				for (const [key, value] of Object.entries(object.data)) {
 					content += `
@@ -192,7 +192,8 @@ function deleteModal(type, id, results) {
 // display alert
 function displayAlert(displayId, status, message){
 	if(status != 200){
-		$(`#${displayId}Alert`).html(`<div class="alert alert-dismissible alert-danger" role="alert">${message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`);
+		$(`#${displayId}Message`).html(`${message}`);
+		$(`#${displayId}Alert`).removeClass('d-none');
 	} 
 }
 // display toast
@@ -573,7 +574,7 @@ function createPerson(addObj) {
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllPersonnel();
-				$("#newPersonModal").modal("hide");
+				$("#newPersonnelModal").modal("hide");
 			}			
 		}, error: function(){
 			console.log("Create person data error occured");
