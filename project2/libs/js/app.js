@@ -18,7 +18,7 @@ function tableDisplay(object, tableId) {
 						<td class="actions align-middle">
 							<div class="btn-group" role="group">
 								<button id="personViewBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#personModal"><i class="fas fa-eye"></i></button>
-								<button id="editBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i></button>
+								<button id="editPersonBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editPersonnelModal"><i class="fas fa-edit"></i></button>
 								<a href="mailto:${value.email}" class="btn text-primary"><i class="fas fa-envelope"></i></a>
 								<button id="deleteBtn" class="btn text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
 							</div>
@@ -41,7 +41,7 @@ function tableDisplay(object, tableId) {
 						<td class="d-none d-md-table-cell">${value.location}</td>
 						<td class="actions align-middle">
 							<div class="btn-group" role="group">
-								<button id="editBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i></button>
+								<button id="editDepartmentBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"><i class="fas fa-edit"></i></button>
 								<button id="deleteBtn" class="btn text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
 							</div>
 						</td>
@@ -61,7 +61,7 @@ function tableDisplay(object, tableId) {
 						<td>${value.name}</td>
 						<td class="actions align-middle">
 							<div class="btn-group" role="group">
-								<button id="editBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i></button>
+								<button id="editLocationBtn" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#editLocationModal"><i class="fas fa-edit"></i></button>
 								<button id="deleteBtn" class="btn text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>
 							</div>
 						</td>
@@ -87,65 +87,30 @@ function displayCheckbox(object, displayId, name) {
 }
 // display new modals
 function newModal(type) {
-	let content = ""
 	switch (type) {
 		case "personnel":
-			content = `
-			<div class="row">
-				<div class="form-group col-12 col-md-6">
-					<label for="firstName">First Name<span class="text-danger">*</span></label>
-					<input type="text" id="firstName" class="form-control form-required" placeholder="First Name">
-				</div>
-				<div class="form-group col-12 col-md-6">
-					<label for="lastName">Last Name<span class="text-danger">*</span></label>
-					<input type="text" id="lastName" class="form-control form-required" placeholder="Last Name">
-				</div>
-			</div>
-			<div class="form-group col-12">
-				<label for="addTitle">Job Title</label>
-				<input type="text" id="addTitle" class="form-control" placeholder="Job Title">
-			</div>
-			<div class="form-group col-12">
-				<label for="newEmail">Email<span class="text-danger">*</span></label>
-				<input type="email" id="newEmail" class="form-control form-required" placeholder="Email">
-			</div>
-			<div class="row">
-				<div class="form-group col-12 col-md-6">
-					<label for="addDepartment">Department<span class="text-danger">*</span></label>
-					<select id="addDepartment" class="form-control form-required">${getDepartments()}</select>
-				</div>
-				<div class="form-group col-12 col-md-6">
-					<label for="addLocation">Location<span class="text-danger">*</span></label>
-					<select id="addLocation" class="form-control form-required" readonly disabled>${getLocations()}</select>
-				</div>
-			</div>`;
+			$("#addPersonDepartment").html(getDepartments());
+			$("#addPersonLocation").html(getLocations());
+			$("#newPersonType").html(type).css("text-transform", "capitalize");
 			break;
 
 		case "department":
-			content = `
-			<div class="form-group">
-				<label for="addDepartment">Department Name<span class="text-danger">*</span></label>
-				<input type="text" id="addDepartment" class="form-control form-required">
-			</div>
-			<div class="form-group">
-				<label for="addLocation">Department Location<span class="text-danger">*</span></label>
-				<select id="addLocation" class="form-control form-required">${getLocations()}</select>
-			</div>`;
+			$("#addDepartmentLocation").html(getLocations());
+			$("#newDepartmentType").html(type).css("text-transform", "capitalize");
 			break;
 
 		case "location":
-			content = `
-			<div class="form-group">
-				<label for="addLocation">Location Name<span class="text-danger">*</span></label>
-				<input type="text" id="addLocation" class="form-control form-required">
-			</div>`;
+			$("#newLocationType").html(type).css("text-transform", "capitalize");
 			break;
 	}
-	$("#newType").html(type).css("text-transform", "capitalize");
-	$("#newForm").html(content);
-	$("#newModal").addEventListener('shown.bs.modal', function() {
-		$("#newModal").modal("show");
+
+	let str = type;
+	let capitalStr = str.charAt(0).toUpperCase() + str.slice(1);
+	let myModalEl = document.getElementById(`new${capitalStr}Modal`);
+	myModalEl.addEventListener('shown.bs.modal', function () {
+		$(`#new${capitalStr}Modal`).modal("show");
 	});
+	
 }
 // display options
 function displayOptions(object, selectedValue) {
@@ -196,10 +161,13 @@ function editModal(type, id) {
 			getLocationById(id, "edit");
 			break;
 	}
-
-	$("#editModal").addEventListener('shown.bs.modal', function() {
-		$("#editModal").modal("show");
+	let str = type;
+	let capitalStr = str.charAt(0).toUpperCase() + str.slice(1);
+	let myModalEl = document.getElementById(`edit${capitalStr}Modal`);
+	myModalEl.addEventListener('shown.bs.modal', function () {
+		$(`#edit${capitalStr}Modal`).modal("show");
 	});
+	
 }
 // display delete modal
 function deleteModal(type, id, results) {
@@ -476,39 +444,13 @@ function getPersonById(personId, type) {
 			if(type == "view") {
 				viewModal(results);
 			} else if(type == "edit") {
-				$("#editForm").html(`
-				<div class="row">
-					<div class="form-group col-12 col-md-6">
-						<label for="editFirst">First Name<span class="text-danger">*</span></label>
-						<input type="text" id="editFirst" class="form-control form-required" value="${results.data.personnel[0].firstName}">
-					</div>
-					<div class="form-group col-12 col-md-6">
-						<label for="editLast">Last Name<span class="text-danger">*</span></label>
-						<input type="text" id="editLast" class="form-control form-required" value="${results.data.personnel[0].lastName}">
-					</div>
-				</div>
-				<div class="form-group col-12">
-					<label for="editJob">Job Title</label>
-					<input type="text" id="editJob" class="form-control" value="${results.data.personnel[0].jobTitle}">
-				</div>
-				<div class="form-group col-12">
-					<label for="editEmail">Email<span class="text-danger">*</span></label>
-					<input type="email" id="editEmail" class="form-control form-required" value="${results.data.personnel[0].email}">
-				</div>
-				<div class="row">
-					<div class="form-group col-12 col-md-6">
-						<label for="editDep">Department<span class="text-danger">*</span></label>
-						<select id="editDep" class="form-control form-required">
-							${getDepartments('', results.data.personnel[0].departmentID)}
-						</select>
-					</div>
-					<div class="form-group col-12 col-md-6">
-						<label for="editLocation">Location<span class="text-danger">*</span></label>
-						<select id="editLocation" class="form-control form-required" readonly disabled>
-							${getLocations('', results.data.personnel[0].location)}
-						</select>
-					</div>
-				</div>`);
+				$("#editFirst").attr('value', `${results.data.personnel[0].firstName}`);
+				$("#editLastName").attr('value', `${results.data.personnel[0].lastName}`);
+				$("#editJob").attr('value', `${results.data.personnel[0].jobTitle}`);
+				$("#editEmail").attr( 'value', `${results.data.personnel[0].email}`);
+				$("#editPersonDep").html(`${getDepartments('', results.data.personnel[0].departmentID)}`);
+				$("#editPersonLocation").html(`${getLocations('', results.data.personnel[0].location)}`);
+
 			} else {
 				deleteModal(type, personId, results);
 			}
@@ -531,17 +473,8 @@ function getDepartmentById(depId, type) {
 		},
 		success: function(results) {
 			if (type == "edit") {
-				$("#editForm").html(`
-				<div class="form-group">
-					<label for="editDep">Department Name<span class="text-danger">*</span></label>
-					<input type="text" id="editDep" class="form-control form-required" value="${results.data[0].name}">
-				</div>
-				<div class="form-group">
-					<label for="editLocation">Department Location<span class="text-danger">*</span></label>
-					<select id="editLocation" class="form-control form-required"">
-						${getLocations()}
-					</select>
-				</div>`);
+				$("#editDep").attr('value', `${results.data[0].name}`);
+				$("#editDepartmentLocation").html(`${getLocations('', results.data[0].locationID)}`);
 			} else {
 				deleteModal(type, depId, results);
 			}
@@ -564,15 +497,10 @@ function getLocationById(locationId, type) {
 		},
 		success: function(results) {
 			if (type == "edit") {
-				$("#editForm").html(`
-				<div class="form-group">
-					<label for="editLocation">Location Name<span class="text-danger">*</span></label>
-					<input type="text" id="editLocation" class="form-control form-required" value="${results.data[0].name}">
-				</div>`);
+				$("#editLocation").attr('value', `${results.data[0].name}`);
 			} else {
 				deleteModal(type, locationId, results);
-			}
-			
+			}	
 		}, error: function() {
 			console.log("Error occured getting location by id!");
 		}
@@ -582,29 +510,42 @@ function getLocationById(locationId, type) {
 // CREATE FUNCTIONS
 // create specific data input
 function createData(type) {
-	let addObj = {
-		"first": $(`#firstName`).val(),
-		"last": $(`#lastName`).val(),
-		"title": $(`#addTitle`).val(),
-		"email": $(`#newEmail`).val(),
-		"department": $(`#addDepartment`).val(),
-		"location": $(`#addLocation`).val(),
-	}
+
+	let addObj;
 
 	switch (type) {
+
 		case "personnel":
+			addObj = {
+				"first": $(`#firstPersonName`).val(),
+				"last": $(`#lastPersonName`).val(),
+				"title": $(`#addPersonTitle`).val(),
+				"email": $(`#newPersonEmail`).val(),
+				"department": $(`#addPersonDepartment`).val(),
+				"location": $(`#addPersonLocation`).val()
+			}
+
 			if (addObj.first != "" && addObj.last != "" && addObj.email != "" && addObj.department != ""){
 				createPerson(addObj);
 			}
 			break;
 
 		case "department":
+			addObj = {
+				"department": $(`#addDepartment`).val(),
+				"location": $(`#addDepartmentLocation`).val()
+			}
+
 			if (addObj.department != "" && addObj.location != ""){
 				createDepartment(addObj);
 			}
 			break;
 				
 		case "location":
+			addObj = {
+				"location": $(`#addLocation`).val()
+			}
+
 			if (addObj.location != ""){
 				createLocation(addObj);
 			}
@@ -628,11 +569,11 @@ function createPerson(addObj) {
 		},
 		success: function(results) {
 			if(results.status.code != 200) {
-				displayAlert("new",results.status.code, results.status.description);
+				displayAlert("newPerson",results.status.code, results.status.description);
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllPersonnel();
-				$("#newModal").modal("hide");
+				$("#newPersonModal").modal("hide");
 			}			
 		}, error: function(){
 			console.log("Create person data error occured");
@@ -653,11 +594,11 @@ function createDepartment(addObj){
 		},
 		success: function(results){
 			if(results.status.code != 200) {
-				displayAlert("new",results.status.code, results.status.description);
+				displayAlert("newDepartment",results.status.code, results.status.description);
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllDepartments();
-				$("#newModal").modal("hide");
+				$("#newDepartmentModal").modal("hide");
 			}
 		}, error: function(){
 			console.log("Create department error occured");
@@ -677,11 +618,11 @@ function createLocation(addObj){
 		},
 		success: function(results){
 			if(results.status.code != 200) {
-				displayAlert("new",results.status.code, results.status.description);
+				displayAlert("newLocation",results.status.code, results.status.description);
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllLocations();
-				$("#newModal").modal("hide");
+				$("#newLocationModal").modal("hide");
 			}
 		}, error: function(){
 			console.log("Error creating new location!");
@@ -692,29 +633,40 @@ function createLocation(addObj){
 // UPDATE FUNCTIONS
 // update specific data input
 function updateData(type, editId) {
-	let editObj = {
-		"first": $(`#editFirst`).val(),
-		"last": $(`#editLast`).val(),
-		"title": $(`#editJob`).val(),
-		"email": $(`#editEmail`).val(),
-		"department": $(`#editDep`).val(),
-		"location": $(`#editLocation`).val(),
-	}
+	let editObj;
 
 	switch (type) {
 		case "personnel":
+			editObj = {
+				"first": $(`#editFirst`).val(),
+				"last": $(`#editLastName`).val(),
+				"title": $(`#editJob`).val(),
+				"email": $(`#editEmail`).val(),
+				"department": $(`#editPersonDep`).val(),
+				"location": $(`#editPersonLocation`).val(),
+			}
+
 			if (editObj.first != "" && editObj.last != "" && editObj.email != "" && editObj.department != "") {
 				updatePersonnel(editObj, editId);
 			}
 			break;
 
 		case "department":
+			editObj = {
+				"department": $(`#editDep`).val(),
+				"location": $(`#editDepartmentLocation`).val(),
+			}
+
 			if (editObj.department != "" && editObj.location != "") {
 				updateDepartment(editObj, editId);
 			}
 			break;
 		
 		case "location":
+			editObj = {
+				"location": $(`#editLocation`).val(),
+			}
+
 			if (editObj.location != "") {
 				updateLocation(editObj, editId);
 			}
@@ -739,11 +691,11 @@ function updatePersonnel(editObj, id) {
 		},
 		success: function(results){
 			if(results.status.code != 200) {
-				displayAlert("edit",results.status.code, results.status.description);
+				displayAlert("editPerson",results.status.code, results.status.description);
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllPersonnel();
-				$("#editModal").modal("hide");
+				$("#editPersonnelModal").modal("hide");
 			}
 		}, error: function(){
 			console.log("Error occured updating personnel data!");
@@ -765,11 +717,11 @@ function updateDepartment(editObj, id){
 		},
 		success: function(results){
 			if(results.status.code != 200) {
-				displayAlert("edit",results.status.code, results.status.description);
+				displayAlert("editDepartment",results.status.code, results.status.description);
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllDepartments();
-				$("#editModal").modal("hide");
+				$("#editDepartmentModal").modal("hide");
 			}
 			
 		}, error: function(){
@@ -791,11 +743,11 @@ function updateLocation(editObj, id){
 		},
 		success: function(results){
 			if(results.status.code != 200) {
-				displayAlert("edit",results.status.code, results.status.description);
+				displayAlert("editLocation",results.status.code, results.status.description);
 			} else {
 				displayToast(results.status.code, results.status.description);
 				getAllLocations();
-				$("#editModal").modal("hide");
+				$("#editLocationModal").modal("hide");
 			}
 		}, error: function(){
 			console.log("Error occured editting location!");
@@ -943,8 +895,6 @@ $(document).ready(function() {
 
     // Display tabs
     $('#personnelTab').on('click', function() {
-		resetForm("new");
-		resetForm("edit");
 		resetForm("delete");
 		$('#filterBtn').removeClass('disabled');
 
@@ -953,8 +903,6 @@ $(document).ready(function() {
 	});
 
 	$('#departmentTab').on('click', function() {
-		resetForm("new");
-		resetForm("edit");
 		resetForm("delete");
 		$('#filterBtn').addClass('disabled');
 
@@ -963,8 +911,6 @@ $(document).ready(function() {
 	});
 
 	$('#locationTab').on('click', function() {
-		resetForm("new");
-		resetForm("edit");
 		resetForm("delete");
 		$('#filterBtn').addClass('disabled');
 
@@ -1000,19 +946,34 @@ $(document).ready(function() {
 	// Add btns
 	$('#newPersonBtn').on('click', function() {
 		newModal("personnel");
+		resetForm("newPerson");
 	});
 	$('#newDepBtn').on('click', function() {
 		newModal("department");
+		resetForm("newDepartment");
 	});
 	$('#newLocBtn').on('click', function() {
 		newModal("location");
+		resetForm("newLocation");
 	});
-	$(document).on('change', '#newForm #addDepartment', function() {
+	$(document).on('change', '#addPersonDepartment', function() {
+		let locId = $('#addPersonDepartment').val().split(',')[1]; 
+		$('#addPersonLocation').html(getLocationByDepId(locId));
+	});
+	$(document).on('change', '#addDepartment', function() {
 		let locId = $('#addDepartment').val().split(',')[1]; 
-		$('#addLocation').html(getLocationByDepId(locId));
+		$('#addDepartmentLocation').html(getLocationByDepId(locId));
 	});
-	$("#newSubmitBtn").click(function() {
-		validateInputs("new");
+	$("#newPersonSubmitBtn").on('click', function() {
+		validateInputs("newPerson");
+		createData(getType());
+	});
+	$("#newDepartmentSubmitBtn").on('click',function() {
+		validateInputs("newDepartment");
+		createData(getType());
+	});
+	$("#newLocationSubmitBtn").on('click',function() {
+		validateInputs("newLocation");
 		createData(getType());
 	});
 	// Person view btn
@@ -1021,17 +982,42 @@ $(document).ready(function() {
 		getPersonById(id, "view");
 	});
 	// edit btns
-	$(document).on("click", "tbody tr #editBtn", function() {
+	$(document).on("click", "tbody tr #editPersonBtn", function() {
+		resetForm("editPerson");
 		let id = $(this).parent().parent().siblings().html();
 		editModal(getType(), id);
 	});
-	$(document).on('change', '#editForm #editDep', function() {
-		let locId = $('#editDep').val().split(',')[1];
-		$('#editLocation').html(getLocationByDepId(locId));
+	$(document).on('change', '#editPersonForm #editPersonDep', function() {
+		let locId = $('#editPersonDep').val().split(',')[1];
+		$('#editPersonLocation').html(getLocationByDepId(locId));
 	});
-	$(document).on("click", "#editSubmitBtn", function() {
+	$(document).on("click", "#editPersonSubmitBtn", function() {
 		let id = $("#editId").html();
-		validateInputs("edit");
+		validateInputs("editPerson");
+		updateData(getType(), id);
+	});
+	$(document).on("click", "tbody tr #editDepartmentBtn", function() {
+		resetForm("editDepartment");
+		let id = $(this).parent().parent().siblings().html();
+		editModal(getType(), id);
+	});
+	$(document).on('change', '#editDepartmentForm #editDep', function() {
+		let locId = $('#editDep').val().split(',')[1];
+		$('#editDepartmentLocation').html(getLocationByDepId(locId));
+	});
+	$(document).on("click", "#editDepartmentSubmitBtn", function() {
+		let id = $("#editId").html();
+		validateInputs("editDepartment");
+		updateData(getType(), id);
+	});
+	$(document).on("click", "tbody tr #editLocationBtn", function() {
+		resetForm("editLocation");
+		let id = $(this).parent().parent().siblings().html();
+		editModal(getType(), id);
+	});
+	$(document).on("click", "#editLocationSubmitBtn", function() {
+		let id = $("#editId").html();
+		validateInputs("editLocation");
 		updateData(getType(), id);
 	});
 	// delete btns

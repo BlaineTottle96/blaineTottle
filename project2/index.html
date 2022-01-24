@@ -63,7 +63,7 @@
             <div id="personnel" class="card tab-pane fade show active shadow" role="tabpanel" aria-labelledby="personnelTab">
 				<div class="card-header header-color d-flex justify-content-between">
                     <h5 class="align-self-end text-white">Personnel <span id="countPersonnel" class="badge rounded-pill btn-add ms-2"></span></h5>
-                    <button type="button" id="newPersonBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newModal" title="new"><i class="fas fa-plus"></i></button>
+                    <button type="button" id="newPersonBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newPersonnelModal" title="new"><i class="fas fa-plus"></i></button>
                 </div>
 				<div class="card-body">
 					<table class="table table-striped table-hover">
@@ -88,7 +88,7 @@
             <div id="department" class="card tab-pane fade shadow" role="tabpanel" aria-labelledby="departmentTab">
 				<div class="card-header header-color d-flex justify-content-between">
                     <h5 class="align-self-end text-white">Departments  <span id="countDepartments" class="badge rounded-pill btn-add ms-2"></span></h5>
-                    <button type="button" id="newDepBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newModal" title="new"><i class="fas fa-plus"></i></button>
+                    <button type="button" id="newDepBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newDepartmentModal" title="new"><i class="fas fa-plus"></i></button>
                 </div>
 				<div class="card-body">
 					<table class="table table-striped table-hover">
@@ -112,7 +112,7 @@
             <div id="location" class="card tab-pane fade shadow" role="tabpanel" aria-labelledby="locationTab">
 				<div class="card-header header-color d-flex justify-content-between">
                     <h5 class="align-self-end text-white">Locations  <span id="countLocations" class="badge rounded-pill btn-add ms-2"></span></h5>
-                    <button type="button" id="newLocBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newModal" title="new"><i class="fas fa-plus"></i></button>
+                    <button type="button" id="newLocBtn" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#newLocationModal" title="new"><i class="fas fa-plus"></i></button>
                 </div>
 				<div class="card-body">
 					<table class="table table-striped table-hover">
@@ -164,27 +164,106 @@
 		</div>
 	</div>
     <!-- Filter modal end -->
-    <!-- ===== New modal ===== -->
-    <div id="newModal" class="modal" tabindex="-1">
+    <!-- ===== New modals ===== -->
+    <div id="newPersonnelModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header header-color">
-					<h5 class="modal-title text-white">New <span id="newType"></span></h5>
+					<h5 class="modal-title text-white">New <span id="newPersonType"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="newAlert"></div>
-					<form id="newForm"></form>
+					<div id="newPersonAlert"></div>
+					<form id="newPersonForm">
+						<div class="row">
+							<div class="form-group col-12 col-md-6">
+								<label for="firstPersonName">First Name<span class="text-danger">*</span></label>
+								<input type="text" id="firstPersonName" class="form-control form-required" placeholder="First Name">
+							</div>
+							<div class="form-group col-12 col-md-6">
+								<label for="lastPersonName">Last Name<span class="text-danger">*</span></label>
+								<input type="text" id="lastPersonName" class="form-control form-required" placeholder="Last Name">
+							</div>
+						</div>
+						<div class="form-group col-12">
+							<label for="addPersonTitle">Job Title</label>
+							<input type="text" id="addPersonTitle" class="form-control" placeholder="Job Title">
+						</div>
+						<div class="form-group col-12">
+							<label for="newPersonEmail">Email<span class="text-danger">*</span></label>
+							<input type="email" id="newPersonEmail" class="form-control form-required" placeholder="Email">
+						</div>
+						<div class="row">
+							<div class="form-group col-12 col-md-6">
+								<label for="addPersonDepartment">Department<span class="text-danger">*</span></label>
+								<select id="addPersonDepartment" class="form-control form-required"></select>
+							</div>
+							<div class="form-group col-12 col-md-6">
+								<label for="addPersonLocation">Location<span class="text-danger">*</span></label>
+								<select id="addPersonLocation" class="form-control form-required" readonly disabled></select>
+							</div>
+						</div>
+					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="newSubmitBtn" class="btn btn-add">Save</button>
+					<button type="button" id="newPersonSubmitBtn" class="btn btn-add">Save</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
 	</div>
-    <!-- New modal end -->
-    <!-- ===== Person modal ===== -->
+	<div id="newDepartmentModal" class="modal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header header-color">
+				<h5 class="modal-title text-white">New <span id="newDepartmentType"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div id="newDepartmentAlert"></div>
+					<form id="newDepartmentForm">
+						<div class="form-group">
+							<label for="addDepartment">Department Name<span class="text-danger">*</span></label>
+							<input type="text" id="addDepartment" class="form-control form-required">
+						</div>
+						<div class="form-group">
+							<label for="addDepartmentLocation">Department Location<span class="text-danger">*</span></label>
+							<select id="addDepartmentLocation" class="form-control form-required"></select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="newDepartmentSubmitBtn" class="btn btn-add">Save</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="newLocationModal" class="modal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white">New <span id="newLocationType"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div id="newLocationAlert"></div>
+					<form id="newLocationForm">
+						<div class="form-group">
+							<label for="addLocation">Location Name<span class="text-danger">*</span></label>
+							<input type="text" id="addLocation" class="form-control form-required">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="newLocationSubmitBtn" class="btn btn-add">Save</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- New modals end -->
+    <!-- ===== View modal ===== -->
     <div id="personModal" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -202,9 +281,9 @@
 			</div>
 		</div>
 	</div>
-    <!-- Person modal end -->
-    <!-- ===== Edit modal ===== -->
-    <div id="editModal" class="modal" tabindex="-1">
+    <!-- View modal end -->
+    <!-- ===== Edit modals ===== -->
+    <div id="editPersonnelModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header header-color">
@@ -213,17 +292,98 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div id="editAlert"></div>
-					<form id="editForm"></form>
+					<div id="editPersonAlert"></div>
+					<form id="editPersonForm">
+						<div class="row">
+							<div class="form-group col-12 col-md-6">
+								<label for="editFirst">First Name<span class="text-danger">*</span></label>
+								<input type="text" id="editFirst" class="form-control form-required">
+							</div>
+							<div class="form-group col-12 col-md-6">
+								<label for="editLastName">Last Name<span class="text-danger">*</span></label>
+								<input type="text" id="editLastName" class="form-control form-required">
+							</div>
+						</div>
+						<div class="form-group col-12">
+							<label for="editJob">Job Title</label>
+							<input type="text" id="editJob" class="form-control">
+						</div>
+						<div class="form-group col-12">
+							<label for="editEmail">Email<span class="text-danger">*</span></label>
+							<input type="email" id="editEmail" class="form-control form-required">
+						</div>
+						<div class="row">
+							<div class="form-group col-12 col-md-6">
+								<label for="editPersonDep">Department<span class="text-danger">*</span></label>
+								<select id="editPersonDep" class="form-control form-required"></select>
+							</div>
+							<div class="form-group col-12 col-md-6">
+								<label for="editPersonLocation">Location<span class="text-danger">*</span></label>
+								<select id="editPersonLocation" class="form-control form-required" readonly disabled></select>
+							</div>
+						</div>
+					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="editSubmitBtn" class="btn btn-add">Save</button>
+					<button type="button" id="editPersonSubmitBtn" class="btn btn-add">Save</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 				</div>
 			</div>
 		</div>
 	</div>
-    <!-- Edit modal end -->
+	<div id="editDepartmentModal" class="modal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white">Edit <span id="editType"></span></h5>
+                    <span id="editId" class="d-none"></span>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div id="editDepartmentAlert"></div>
+					<form id="editDepartmentForm">
+						<div class="form-group">
+							<label for="editDep">Department Name<span class="text-danger">*</span></label>
+							<input type="text" id="editDep" class="form-control form-required">
+						</div>
+						<div class="form-group">
+							<label for="editDepartmentLocation">Department Location<span class="text-danger">*</span></label>
+							<select id="editDepartmentLocation" class="form-control form-required""></select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="editDepartmentSubmitBtn" class="btn btn-add">Save</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="editLocationModal" class="modal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header header-color">
+					<h5 class="modal-title text-white">Edit <span id="editType"></span></h5>
+                    <span id="editId" class="d-none"></span>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div id="editLocationAlert"></div>
+					<form id="editLocationForm">
+						<div class="form-group">
+							<label for="editLocation">Location Name<span class="text-danger">*</span></label>
+							<input type="text" id="editLocation" class="form-control form-required">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="editLocationSubmitBtn" class="btn btn-add">Save</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- Edit modals end -->
     <!-- ===== Delete modal ===== -->
     <div id="deleteModal" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
