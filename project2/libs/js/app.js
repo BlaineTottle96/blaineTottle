@@ -112,17 +112,32 @@ function newModal(type) {
 	});
 	
 }
-// display options
-function displayOptions(object, selectedValue) {
+// display department options
+function displayDepOptions(object, selectedValue) {
 	let content = "";
 	if (selectedValue == '') {
 		content += '<option selected hidden value="">Select...</option>';
-	}
+	}	
 	for (const [key, value] of Object.entries(object.data)) {
 		if (value.id == selectedValue) {
 			content += `<option value="${value.id},${value.locationID}" selected>${value.name}</option>`;
 		} else {
 			content += `<option value="${value.id},${value.locationID}" >${value.name}</option>`;	
+		}
+	}
+	return content;
+}
+// display location options
+function displayLocOptions(object, selectedValue) {
+	let content = "";
+	if (selectedValue == '') {
+		content += '<option selected hidden value="">Select...</option>';
+	}	
+	for (const [key, value] of Object.entries(object.data)) {
+		if (value.id == selectedValue) {
+			content += `<option value="${value.id}" selected>${value.name}</option>`;
+		} else {
+			content += `<option value="${value.id}" >${value.name}</option>`;	
 		}
 	}
 	return content;
@@ -192,8 +207,8 @@ function deleteModal(type, id, results) {
 // display alert
 function displayAlert(displayId, status, message){
 	if(status != 200){
-		$(`#${displayId}Message`).html(`${message}`);
-		$(`#${displayId}Alert`).removeClass('d-none');
+		$(`#${displayId}Alert`).html(`<div class="alert alert-dismissible alert-danger" role="alert"><span id="${displayId}Message">${message}</span></div>`);
+		$(`#${displayId}Alert`).fadeIn(500).delay(3000).fadeOut(2000);
 	} 
 }
 // display toast
@@ -208,6 +223,7 @@ function displayToast(status, message) {
 				<button type="button" class="btn-close me-2 m-auto btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
 			</div>
 		</div>`);
+		$("#alertToast").fadeIn(500).delay(3000).fadeOut(2000);
 	}
 }
 
@@ -383,7 +399,7 @@ function getDepartments(selectedValue='', id) {
 		},
 
 		success: function(results){
-			options = displayOptions(results, id);
+			options = displayDepOptions(results, id);
 		}, error: function(){
 			console.log("error occured getting departments");
 		}
@@ -403,7 +419,7 @@ function getLocations(selectedValue='', id) {
 		},
 
 		success: function(results){
-			options = displayOptions(results, id);
+			options = displayLocOptions(results, id);
 		}, error: function(){
 			console.log("error occured getting Locations");
 		}
@@ -653,6 +669,7 @@ function updateData(type, editId) {
 			break;
 
 		case "department":
+			console.log($(`#editDepartmentLocation`).val());
 			editObj = {
 				"department": $(`#editDep`).val(),
 				"location": $(`#editDepartmentLocation`).val(),

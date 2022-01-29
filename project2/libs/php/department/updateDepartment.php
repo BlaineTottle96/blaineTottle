@@ -10,7 +10,7 @@
 
 	if($_POST['department']) {
 		$connDep = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-		$queryDep = 'SELECT id FROM department WHERE name = "' . $_POST["department"] . '" AND locationID = ' . $_POST["location"] . ' AND id != ' . $_POST["departmentId"];
+		$queryDep = 'SELECT id FROM department WHERE name = "' . $_POST['department'] . '" AND locationID = ' . $_POST['location'];
 		$resultDep = $connDep->query($queryDep);
 		$DepCheck = [];
 
